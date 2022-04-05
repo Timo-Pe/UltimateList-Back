@@ -17,7 +17,7 @@ class Item
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups("get_tags_collection")
+     * @Groups({"get_tags_collection", "get_platforms_collection"})
      */
     private $id;
 

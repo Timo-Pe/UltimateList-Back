@@ -50,7 +50,7 @@ class APITagsController extends AbstractController
     /**
      * @Route("/api/tags/create", name="app_api_create_tags", methods={"POST"})
      */
-    public function createTag(Request $request,  SerializerInterface $serializer, ManagerRegistry $doctrine, ValidatorInterface $validator): Response
+    public function createTag(Request $request, SerializerInterface $serializer, ManagerRegistry $doctrine, ValidatorInterface $validator): Response
     {
         $jsonContent = $request->getContent();
 
@@ -72,7 +72,7 @@ class APITagsController extends AbstractController
             };
             return $this->json($errorsClean, Response::HTTP_UNPROCESSABLE_ENTITY);
         }
-
+        // les items ne rentre pas en BDD
         $entityManager = $doctrine->getManager();
         $entityManager->persist($tag);
         $entityManager->flush();
@@ -111,18 +111,22 @@ class APITagsController extends AbstractController
     /**
      * @Route("api/tags/{id<\d+>}", name="api_tags_edit", methods={"PATCH"})
      */
-    public function editTag(Tag $tag, ManagerRegistry $doctrine, SerializerInterface $serializer, Request $request)
+    public function editTag(Tag $tag,ManagerRegistry $doctrine, SerializerInterface $serializer, Request $request)
     {
         $jsonContent = $request->getContent();
         $tagEdit = $serializer->deserialize($jsonContent, Tag::class, 'json');
 
-        //$tag->setContent($tagEdit);
-        
+        $tag->setName($tagEdit->getName());
+        $items = $tagEdit->getItems();
+        foreach ($items as $item) {
+            $tag->addItem($item);
+        }
+    
         $entityManager = $doctrine->getManager();
-        $entityManager->persist($tagEdit);
+        $entityManager->persist($tag);
         $entityManager->flush();
-        
         return $this->json($tag, Response::HTTP_OK, [], ['groups' => 'get_tags_collection']);
+   
     }
 }
 
