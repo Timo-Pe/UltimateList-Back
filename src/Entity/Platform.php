@@ -17,7 +17,7 @@ class Platform
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups("get_platforms_collection")
+     * @Groups({"get_platforms_collection", "get_items_collection"})
      */
     private $id;
 

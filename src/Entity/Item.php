@@ -10,6 +10,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=ItemRepository::class)
+ * @Groups("get_items_collection")
  */
 class Item
 {
