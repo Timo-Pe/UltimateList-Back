@@ -38,7 +38,7 @@ class APIListItemsController extends AbstractController
     }
 
     /**
-     * @Route("/api/list_items/{id<\d+>}", name="api_listitems_get_listItem", methods={"GET"})
+     * @Route("/api/list_items/{id<\d+>}", name="api_listitems_get_listItem", methods="GET")
      */
     public function getListItem(ListItem $listItem = null) 
     {
@@ -49,7 +49,7 @@ class APIListItemsController extends AbstractController
     }
 
     /**
-     * @Route("/api/list_items/create", name="app_api_create_listItems", methods={"POST"})
+     * @Route("/api/list_items/create", name="app_api_create_listItems", methods="POST")
      */
     public function createListItem(Request $request, SerializerInterface $serializer, ManagerRegistry $doctrine, ValidatorInterface $validator): Response
     {
@@ -106,7 +106,7 @@ class APIListItemsController extends AbstractController
     }
 
     /**
-     * @Route("api/list_items/{id<\d+>}", name="api_listItems_delete", methods={"DELETE"})
+     * @Route("api/list_items/{id<\d+>}", name="api_listItems_delete", methods="DELETE")
      */
 
     public function deleteListItem(ListItem $listItem = null, ManagerRegistry $doctrine) 
@@ -124,7 +124,7 @@ class APIListItemsController extends AbstractController
     }
 
     /**
-     * @Route("api/list_items/{id<\d+>}", name="api_listitems_edit", methods={"PUT"})
+     * @Route("api/list_items/{id<\d+>}", name="api_listitems_edit", methods="PUT")
      */
     public function editListItem(ListItem $listItem, ManagerRegistry $doctrine, SerializerInterface $serializer, Request $request)
     {
