@@ -73,6 +73,19 @@ class APIPlatformsController extends AbstractController
             return $this->json($errorsClean, Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
+        $newPlatform = new Platform();
+
+        $newPlatform->setName($platform->getName());
+
+        $items = $platform->getItems();
+        foreach ($items as $item) {
+            $newPlatform->addItem($item);
+        }
+        $modes = $platform->getModes();
+        foreach ($modes as $mode) {
+            $newPlatform->addMode($mode);
+        }
+
         $entityManager = $doctrine->getManager();
         $entityManager->persist($platform);
         $entityManager->flush();

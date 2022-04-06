@@ -78,7 +78,7 @@ class Item
     private $list_items;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Platform::class, inversedBy="items")
+     * @ORM\ManyToMany(targetEntity=Platform::class, inversedBy="items", cascade={"persist"})
      */
     private $platforms;
 

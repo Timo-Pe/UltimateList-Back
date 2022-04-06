@@ -72,9 +72,18 @@ class APITagsController extends AbstractController
             };
             return $this->json($errorsClean, Response::HTTP_UNPROCESSABLE_ENTITY);
         }
-        // les items ne rentre pas en BDD
+        
+        $newTag = new Tag();
+
+        $newTag->setName($tag->getName());
+        $items = $tag->getItems();
+
+        foreach ($items as $item) {
+            $newTag->addItem($item);
+        }
+
         $entityManager = $doctrine->getManager();
-        $entityManager->persist($tag);
+        $entityManager->persist($newTag);
         $entityManager->flush();
 
         return $this->json(
