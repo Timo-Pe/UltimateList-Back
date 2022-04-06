@@ -88,7 +88,7 @@ class AppFixtures extends Fixture
         $admin = new User();
         $admin->setUsername('admin');
         $admin->setEmail('admin@admin.com');
-        $admin->setRoles(['ROLE_ADMIN']);
+        $admin->setRoles('ROLE_ADMIN');
         $admin->setPassword('$2y$13$.PJiDK3kq2C4owW5RW6Z3ukzRc14TJZRPcMfXcCy9AyhhA9OMK3Li');
         $userList[] = $admin;
         $manager->persist($admin);
