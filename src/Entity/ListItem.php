@@ -17,44 +17,51 @@ class ListItem
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups("get_items_collection")
+     * @Groups({"get_items_collection", "get_users_collection", "get_list_items_collection", "get_modes_collection"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="datetime_immutable")
+     * @Groups("get_list_items_collection")
      */
     private $item_added_at;
 
     /**
      * @ORM\Column(type="integer")
+     * @Groups("get_list_items_collection")
      */
     private $item_status;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Groups("get_list_items_collection")
      */
     private $item_comment;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @Groups("get_list_items_collection")
      */
     private $item_rating;
 
     /**
      * @ORM\ManyToMany(targetEntity=Item::class, mappedBy="list_items")
+     * @Groups("get_list_items_collection")
      */
     private $items;
 
     /**
      * @ORM\ManyToOne(targetEntity=Mode::class, inversedBy="listItems")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups("get_list_items_collection")
      */
     private $mode;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="listItems")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups("get_list_items_collection")
      */
     private $user;
 

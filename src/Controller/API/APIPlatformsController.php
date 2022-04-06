@@ -122,7 +122,7 @@ class APIPlatformsController extends AbstractController
     }
 
     /**
-     * @Route("api/platforms/{id<\d+>}", name="api_platforms_edit", methods={"PATCH"})
+     * @Route("api/platforms/{id<\d+>}", name="api_platforms_edit", methods={"PUT"})
      */
     public function editPlatform(Platform $platform,ManagerRegistry $doctrine, SerializerInterface $serializer, Request $request)
     {
@@ -130,10 +130,22 @@ class APIPlatformsController extends AbstractController
         $platformEdit = $serializer->deserialize($jsonContent, Platform::class, 'json');
 
         $platform->setName($platformEdit->getName());
+
+        $modesRemove = $platform->getModes();
+        foreach ($modesRemove as $modeRemove) {
+            $platform->removeMode($modeRemove);
+        }
+        
         $modes = $platformEdit->getModes();
         foreach ($modes as $mode) {
             $platform->addMode($mode);
         }
+        
+        $itemsRemove = $platform->getItems();
+        foreach ($itemsRemove as $itemRemove) {
+            $platform->removeItem($itemRemove);
+        }
+
         $items = $platformEdit->getItems();
         foreach ($items as $item) {
             $platform->addItem($item);

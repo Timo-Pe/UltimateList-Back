@@ -37,7 +37,7 @@ class APIItemsController extends AbstractController
     }
 
     /**
-     * @Route("/api/items/{id<\d+>}", name="api_items_get_item", methods={"GET"})
+     * @Route("/api/items/{id<\d+>}", name="api_items_get_item", methods="GET")
      */
     public function getItem(Item $item = null) 
     {
@@ -48,7 +48,7 @@ class APIItemsController extends AbstractController
     }
 
     /**
-     * @Route("/api/items/create", name="app_api_create_items", methods={"POST"})
+     * @Route("/api/items/create", name="app_api_create_items", methods="POST")
      */
     public function createItem(Request $request, SerializerInterface $serializer, ManagerRegistry $doctrine, ValidatorInterface $validator): Response
     {
@@ -77,46 +77,35 @@ class APIItemsController extends AbstractController
 
         $newItem->setName($item->getName())
                 ->setDescription($item->getDescription())
+                ->setReleaseDate($item->getReleaseDate())
                 ->setImage($item->getImage())
-                ->setMode($item->getMode());
+                ->setMode($item->getMode())
+                ->setProductor($item->getProductor())
+                ->setEditor($item->getEditor())
+                ->setAutor($item->getAutor())
+                ->setHost($item->getHost())
+                ->setDeveloper($item->getDeveloper());
 
-        $productors = $item->getProductor();
-        foreach ($productors as $productor) {
-            $newItem->setProductor($productor);
+        
+        if ($item->getListItems() != null) {
+            $list_items = $item->getListItems();
+            foreach ($list_items as $list_item) {
+                $newItem->addListItem($list_item);
+            }
         }
 
-        $editors = $item->getEditor();
-        foreach ($editors as $editor) {
-            $newItem->setEditor($editor);
+        if ($item->getPlatforms() != null) {
+            $platforms = $item->getPlatforms();
+            foreach ($platforms as $platform) {
+                $newItem->addPlatform($platform);
+            }
         }
 
-        $autors = $item->getAutor();
-        foreach ($autors as $autor) {
-            $newItem->setAutor($autor);
-        }
-
-        $hosts = $item->getHost();
-        foreach ($hosts as $host) {
-            $newItem->setHost($host);
-        }
-        $developers = $item->getDeveloper();
-        foreach ($developers as $developer) {
-            $newItem->setDeveloper($developer);
-        }
-
-        $list_items = $item->getListItems();
-        foreach ($list_items as $list_item) {
-            $newItem->addListItem($list_item);
-        }
-
-        $platforms = $item->getPlatforms();
-        foreach ($platforms as $platform) {
-            $newItem->addPlatform($platform);
-        }
-
-        $tags = $item->getTags();
-        foreach ($tags as $tag) {
-            $newItem->addTag($tag);
+        if ($item->getTags() != null) {
+            $tags = $item->getTags();
+            foreach ($tags as $tag) {
+                $newItem->addTag($tag);
+            }
         }
 
         $entityManager = $doctrine->getManager();
@@ -137,7 +126,7 @@ class APIItemsController extends AbstractController
     }
 
     /**
-     * @Route("api/items/{id<\d+>}", name="api_items_delete", methods={"DELETE"})
+     * @Route("api/items/{id<\d+>}", name="api_items_delete", methods="DELETE")
      */
 
     public function deleteItem(Item $item = null, ManagerRegistry $doctrine) 
@@ -155,50 +144,57 @@ class APIItemsController extends AbstractController
     }
 
     /**
-     * @Route("api/items/{id<\d+>}", name="api_items_edit", methods={"PATCH"})
+     * @Route("api/items/{id<\d+>}", name="api_items_edit", methods="PUT")
      */
-    public function editItem(Item $item, ManagerRegistry $doctrine, SerializerInterface $serializer, Request $request)
+    public function editItem(Item $item, ManagerRegistry $doctrine, ValidatorInterface $validator, SerializerInterface $serializer, Request $request)
     {
         $jsonContent = $request->getContent();
         $itemEdit = $serializer->deserialize($jsonContent, Item::class, 'json');
+        
+        $errors = $validator->validate($itemEdit);
 
+        if (count($errors) > 0) {
+            $errorsClean = [];
+            foreach ($errors as $error) {
+                $errorsClean[$error->getPropertyPath()][] = $error->getMessage();
+            };
+            return $this->json($errorsClean, Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+        
         $item->setName($itemEdit->getName())
-        ->setDescription($itemEdit->getDescription())
-        ->setImage($itemEdit->getImage())
-        ->setMode($itemEdit->getMode());
-
-        $productors = $itemEdit->getProductor();
-        foreach ($productors as $productor) {
-            $item->setProductor($productor);
+             ->setDescription($itemEdit->getDescription())
+             ->setReleaseDate($itemEdit->getReleaseDate())
+             ->setImage($itemEdit->getImage())
+             ->setMode($itemEdit->getMode())
+             ->setProductor($itemEdit->getProductor())
+             ->setEditor($itemEdit->getEditor())
+             ->setAutor($itemEdit->getAutor())
+             ->setHost($itemEdit->getHost())
+             ->setDeveloper($itemEdit->getDeveloper());
+             
+        $list_itemsRemove = $item->getListItems();
+        foreach ($list_itemsRemove as $list_itemRemove) {
+            $item->removeListItem($list_itemRemove);
         }
-
-        $editors = $itemEdit->getEditor();
-        foreach ($editors as $editor) {
-            $item->setEditor($editor);
-        }
-
-        $autors = $itemEdit->getAutor();
-        foreach ($autors as $autor) {
-            $item->setAutor($autor);
-        }
-
-        $hosts = $itemEdit->getHost();
-        foreach ($hosts as $host) {
-            $item->setHost($host);
-        }
-        $developers = $itemEdit->getDeveloper();
-        foreach ($developers as $developer) {
-            $item->setDeveloper($developer);
-        }
-
+   
         $list_items = $itemEdit->getListItems();
         foreach ($list_items as $list_item) {
             $item->addListItem($list_item);
+        }
+        
+        $platformsRemove = $item->getPlatforms();
+        foreach ($platformsRemove as $platformRemove) {
+            $item->removePlatform($platformRemove);
         }
 
         $platforms = $itemEdit->getPlatforms();
         foreach ($platforms as $platform) {
             $item->addPlatform($platform);
+        }
+
+        $tagsRemove = $item->getTags();
+        foreach ($tagsRemove as $tagRemove) {
+            $item->removeTag($tagRemove);
         }
 
         $tags = $itemEdit->getTags();

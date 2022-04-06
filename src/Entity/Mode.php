@@ -17,27 +17,31 @@ class Mode
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups({"get_platforms_collection", "get_items_collection"})
+     * @Groups({"get_platforms_collection", "get_items_collection", "get_list_items_collection", "get_modes_collection"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=64)
+     * @Groups("get_modes_collection")
      */
     private $name;
 
     /**
      * @ORM\OneToMany(targetEntity=Item::class, mappedBy="mode")
+     * @Groups("get_modes_collection")
      */
     private $items;
 
     /**
      * @ORM\OneToMany(targetEntity=ListItem::class, mappedBy="mode")
+     * @Groups("get_modes_collection")
      */
     private $listItems;
 
     /**
      * @ORM\ManyToMany(targetEntity=Platform::class, inversedBy="modes")
+     * @Groups("get_modes_collection")
      */
     private $platforms;
 
@@ -68,7 +72,7 @@ class Mode
     /**
      * @return Collection<int, Item>
      */
-    public function getItems(): Collection
+    public function getItems(): ?Collection
     {
         return $this->items;
     }
@@ -98,7 +102,7 @@ class Mode
     /**
      * @return Collection<int, ListItem>
      */
-    public function getListItems(): Collection
+    public function getListItems(): ?Collection
     {
         return $this->listItems;
     }
@@ -128,7 +132,7 @@ class Mode
     /**
      * @return Collection<int, Platform>
      */
-    public function getPlatforms(): Collection
+    public function getPlatforms(): ?Collection
     {
         return $this->platforms;
     }

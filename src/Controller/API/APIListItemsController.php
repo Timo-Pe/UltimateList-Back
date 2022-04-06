@@ -4,6 +4,7 @@ namespace App\Controller\API;
 
 use App\Entity\ListItem;
 use App\Repository\ListItemRepository;
+use DateTimeImmutable;
 use Doctrine\Persistence\ManagerRegistry;
 use FOS\RestBundle\Serializer\Serializer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -75,7 +76,7 @@ class APIListItemsController extends AbstractController
         
         $newListItem = new ListItem();
 
-        $newListItem->setItemAddedAt($listItem->getItemAddedAt())
+        $newListItem->setItemAddedAt(new DateTimeImmutable("NOW"))
                     ->setItemComment($listItem->getItemComment())
                     ->setItemRating($listItem->getItemRating())
                     ->setItemStatus($listItem->getItemStatus())
@@ -86,6 +87,10 @@ class APIListItemsController extends AbstractController
         foreach ($items as $item) {
             $newListItem->addItem($item);
         }
+
+        $entityManager = $doctrine->getManager();
+        $entityManager->persist($newListItem);
+        $entityManager->flush();
 
         return $this->json(
             // Les données à sérialiser (à convertir en JSON)
@@ -119,19 +124,23 @@ class APIListItemsController extends AbstractController
     }
 
     /**
-     * @Route("api/listitems/{id<\d+>}", name="api_listitems_edit", methods={"PATCH"})
+     * @Route("api/list_items/{id<\d+>}", name="api_listitems_edit", methods={"PUT"})
      */
     public function editListItem(ListItem $listItem, ManagerRegistry $doctrine, SerializerInterface $serializer, Request $request)
     {
         $jsonContent = $request->getContent();
         $listItemEdit = $serializer->deserialize($jsonContent, ListItem::class, 'json');
 
-        $listItem->setItemAddedAt($listItemEdit->getItemAddedAt())
-                ->setItemComment($listItemEdit->getItemComment())
+        $listItem->setItemComment($listItemEdit->getItemComment())
                 ->setItemRating($listItemEdit->getItemRating())
                 ->setItemStatus($listItemEdit->getItemStatus())
                 ->setMode($listItemEdit->getMode())
                 ->setUser($listItemEdit->getUser());
+
+        $itemsRemove = $listItem->getItems();
+        foreach ($itemsRemove as $itemRemove) {
+            $listItem->removeItem($itemRemove);
+        }
 
         $items = $listItemEdit->getItems();
         foreach ($items as $item) {

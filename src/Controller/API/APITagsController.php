@@ -118,7 +118,7 @@ class APITagsController extends AbstractController
     }
 
     /**
-     * @Route("api/tags/{id<\d+>}", name="api_tags_edit", methods={"PATCH"})
+     * @Route("api/tags/{id<\d+>}", name="api_tags_edit", methods="PUT")
      */
     public function editTag(Tag $tag,ManagerRegistry $doctrine, SerializerInterface $serializer, Request $request)
     {
@@ -126,6 +126,12 @@ class APITagsController extends AbstractController
         $tagEdit = $serializer->deserialize($jsonContent, Tag::class, 'json');
 
         $tag->setName($tagEdit->getName());
+
+        $itemsRemove = $tag->getItems();
+        foreach ($itemsRemove as $itemRemove) {
+            $tag->removeItem($itemRemove);
+        }
+
         $items = $tagEdit->getItems();
         foreach ($items as $item) {
             $tag->addItem($item);

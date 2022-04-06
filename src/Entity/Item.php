@@ -10,7 +10,6 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=ItemRepository::class)
- * @Groups("get_items_collection")
  */
 class Item
 {
@@ -18,73 +17,86 @@ class Item
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups({"get_tags_collection", "get_platforms_collection"})
+     * @Groups({"get_tags_collection", "get_modes_collection", "get_platforms_collection", "get_list_items_collection", "get_items_collection"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=64)
+     * @Groups("get_items_collection")
      */
     private $name;
 
     /**
      * @ORM\Column(type="text")
+     * @Groups("get_items_collection")
      */
     private $description;
 
     /**
      * @ORM\Column(type="date")
+     * @Groups("get_items_collection")
      */
     private $release_date;
 
     /**
      * @ORM\Column(type="string", length=64, nullable=true)
+     * @Groups("get_items_collection")
      */
     private $productor;
 
     /**
      * @ORM\Column(type="string", length=64, nullable=true)
+     * @Groups("get_items_collection")
      */
     private $autor;
 
     /**
      * @ORM\Column(type="string", length=64, nullable=true)
+     * @Groups("get_items_collection")
      */
     private $host;
 
     /**
      * @ORM\Column(type="string", length=64, nullable=true)
+     * @Groups("get_items_collection")
      */
     private $developer;
 
     /**
      * @ORM\Column(type="string", length=64, nullable=true)
+     * @Groups("get_items_collection")
      */
     private $editor;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("get_items_collection")
      */
     private $image;
 
     /**
      * @ORM\ManyToOne(targetEntity=Mode::class, inversedBy="items")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups("get_items_collection")
      */
     private $mode;
 
     /**
      * @ORM\ManyToMany(targetEntity=ListItem::class, inversedBy="items")
+     * @Groups("get_items_collection")
      */
     private $list_items;
 
     /**
      * @ORM\ManyToMany(targetEntity=Platform::class, inversedBy="items", cascade={"persist"})
+     * @Groups("get_items_collection")
      */
     private $platforms;
 
     /**
      * @ORM\ManyToMany(targetEntity=Tag::class, inversedBy="items")
+     * @Groups("get_items_collection")
      */
     private $tags;
 
@@ -223,7 +235,7 @@ class Item
     /**
      * @return Collection<int, ListItem>
      */
-    public function getListItems(): Collection
+    public function getListItems(): ?Collection
     {
         return $this->list_items;
     }
@@ -247,7 +259,7 @@ class Item
     /**
      * @return Collection<int, Platform>
      */
-    public function getPlatforms(): Collection
+    public function getPlatforms(): ?Collection
     {
         return $this->platforms;
     }
@@ -271,7 +283,7 @@ class Item
     /**
      * @return Collection<int, Tag>
      */
-    public function getTags(): Collection
+    public function getTags(): ?Collection
     {
         return $this->tags;
     }
