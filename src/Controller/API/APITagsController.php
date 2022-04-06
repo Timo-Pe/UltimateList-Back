@@ -37,7 +37,7 @@ class APITagsController extends AbstractController
     }
 
     /**
-     * @Route("/api/tags/{id<\d+>}", name="api_tags_get_tag", methods={"GET"})
+     * @Route("/api/tags/{id<\d+>}", name="api_tags_get_tag", methods="GET")
      */
     public function getTag(Tag $tag = null) 
     {
@@ -48,7 +48,7 @@ class APITagsController extends AbstractController
     }
 
     /**
-     * @Route("/api/tags/create", name="app_api_create_tags", methods={"POST"})
+     * @Route("/api/tags/create", name="app_api_create_tags", methods="POST")
      */
     public function createTag(Request $request, SerializerInterface $serializer, ManagerRegistry $doctrine, ValidatorInterface $validator): Response
     {
@@ -100,7 +100,7 @@ class APITagsController extends AbstractController
     }
 
     /**
-     * @Route("api/tags/{id<\d+>}", name="api_tags_delete", methods={"DELETE"})
+     * @Route("api/tags/{id<\d+>}", name="api_tags_delete", methods="DELETE")
      */
 
     public function deleteTag(Tag $tag = null, ManagerRegistry $doctrine) 

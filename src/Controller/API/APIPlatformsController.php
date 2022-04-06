@@ -37,7 +37,7 @@ class APIPlatformsController extends AbstractController
     }
 
     /**
-     * @Route("/api/platforms/{id<\d+>}", name="api_platforms_get_platform", methods={"GET"})
+     * @Route("/api/platforms/{id<\d+>}", name="api_platforms_get_platform", methods="GET")
      */
     public function getPlatform(Platform $platform = null) 
     {
@@ -48,7 +48,7 @@ class APIPlatformsController extends AbstractController
     }
 
     /**
-     * @Route("/api/platforms/create", name="app_api_create_platforms", methods={"POST"})
+     * @Route("/api/platforms/create", name="app_api_create_platforms", methods="POST")
      */
     public function createPlatform(Request $request, SerializerInterface $serializer, ManagerRegistry $doctrine, ValidatorInterface $validator): Response
     {
@@ -104,7 +104,7 @@ class APIPlatformsController extends AbstractController
     }
 
     /**
-     * @Route("api/platforms/{id<\d+>}", name="api_platforms_delete", methods={"DELETE"})
+     * @Route("api/platforms/{id<\d+>}", name="api_platforms_delete", methods="DELETE")
      */
 
     public function deletePlatform(Platform $platform = null, ManagerRegistry $doctrine) 
@@ -122,7 +122,7 @@ class APIPlatformsController extends AbstractController
     }
 
     /**
-     * @Route("api/platforms/{id<\d+>}", name="api_platforms_edit", methods={"PUT"})
+     * @Route("api/platforms/{id<\d+>}", name="api_platforms_edit", methods="PUT")
      */
     public function editPlatform(Platform $platform,ManagerRegistry $doctrine, SerializerInterface $serializer, Request $request)
     {

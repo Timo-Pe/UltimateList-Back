@@ -37,7 +37,7 @@ class APIModesController extends AbstractController
     }
 
     /**
-     * @Route("/api/modes/{id<\d+>}", name="api_modes_get_mode", methods={"GET"})
+     * @Route("/api/modes/{id<\d+>}", name="api_modes_get_mode", methods="GET")
      */
     public function getMode(Mode $mode = null) 
     {
@@ -48,7 +48,7 @@ class APIModesController extends AbstractController
     }
 
     /**
-     * @Route("/api/modes/create", name="app_api_create_modes", methods={"POST"})
+     * @Route("/api/modes/create", name="app_api_create_modes", methods="POST")
      */
     public function createMode(Request $request, SerializerInterface $serializer, ManagerRegistry $doctrine, ValidatorInterface $validator): Response
     {
@@ -116,7 +116,7 @@ class APIModesController extends AbstractController
     }
 
     /**
-     * @Route("api/modes/{id<\d+>}", name="api_modes_delete", methods={"DELETE"})
+     * @Route("api/modes/{id<\d+>}", name="api_modes_delete", methods="DELETE")
      */
 
     public function deleteMode(Mode $mode = null, ManagerRegistry $doctrine) 
@@ -134,7 +134,7 @@ class APIModesController extends AbstractController
     }
 
     /**
-     * @Route("api/modes/{id<\d+>}", name="api_modes_edit", methods={"PUT"})
+     * @Route("api/modes/{id<\d+>}", name="api_modes_edit", methods="PUT")
      */
     public function editMode(Mode $mode,ManagerRegistry $doctrine, SerializerInterface $serializer, Request $request)
     {
