@@ -136,6 +136,7 @@ class AppFixtures extends Fixture
             "Action",
             "Aventure",
             "Societe",
+            "Gestion"
         ];
 
         return $tabTag;
@@ -175,7 +176,7 @@ class AppFixtures extends Fixture
              "tagIndex" => [0,1,2]
             ],
             [
-                "name" => "horizon forbidden west", 
+                "name" => "Horizon forbidden west", 
                 "description" => "orizon Forbidden West est un jeu vidéo d'action-RPG développé par Guerrilla Games et publié par Sony Interactive Entertainment.", 
                 "release_date" => new DateTime('2022-02-18'), 
                 "productor" => null,
@@ -216,7 +217,20 @@ class AppFixtures extends Fixture
              "platformIndex" => [4,5],
              "tagIndex" => [0,3]
             ],
-
+            [
+             "name" => "Ma Petite StartUp", 
+             "description" => "Recrutez des développeurs et faites vous un max de moulaga !", 
+             "release_date" => new DateTime('2010-01-01'),
+             "productor" => null,
+             "autor" => null,
+             "host" => null,
+             "developer" => "Elie, Justine, Abdel, Bryan, Fabien",
+             "editor" => "EJABF",
+             "picture" => "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSDR5jrcS-OvSUirhrmPccnzXMY7gvqd4RIBA&usqp=CAU",
+             "modeIndex" => 1,
+             "platformIndex" => [1],
+             "tagIndex" => [4]
+            ]
         ];
 
         return $tabItem;
