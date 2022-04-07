@@ -103,59 +103,5 @@ class APIPlatformsController extends AbstractController
         );
     }
 
-    /**
-     * @Route("api/platforms/{id<\d+>}", name="api_platforms_delete", methods="DELETE")
-     */
-
-    public function deletePlatform(Platform $platform = null, ManagerRegistry $doctrine) 
-    {
-        // ajouter un token pour autoriser le delete
-        if ($platform === null) {
-            return $this->json(['errors' => 'Le platform ne peut être supprimé car il n\' existe pas'], Response::HTTP_BAD_REQUEST);
-        }
-        
-        $entityManager = $doctrine->getManager();
-        
-        $entityManager->remove($platform);
-        $entityManager->flush();
-        return $this->json(Response::HTTP_OK );
-    }
-
-    /**
-     * @Route("api/platforms/{id<\d+>}", name="api_platforms_edit", methods="PUT")
-     */
-    public function editPlatform(Platform $platform,ManagerRegistry $doctrine, SerializerInterface $serializer, Request $request)
-    {
-        $jsonContent = $request->getContent();
-        $platformEdit = $serializer->deserialize($jsonContent, Platform::class, 'json');
-
-        $platform->setName($platformEdit->getName());
-
-        $modesRemove = $platform->getModes();
-        foreach ($modesRemove as $modeRemove) {
-            $platform->removeMode($modeRemove);
-        }
-        
-        $modes = $platformEdit->getModes();
-        foreach ($modes as $mode) {
-            $platform->addMode($mode);
-        }
-        
-        $itemsRemove = $platform->getItems();
-        foreach ($itemsRemove as $itemRemove) {
-            $platform->removeItem($itemRemove);
-        }
-
-        $items = $platformEdit->getItems();
-        foreach ($items as $item) {
-            $platform->addItem($item);
-        }
-    
-        $entityManager = $doctrine->getManager();
-        $entityManager->persist($platform);
-        $entityManager->flush();
-        return $this->json($platform, Response::HTTP_OK, [], ['groups' => 'get_platforms_collection']);
-   
-    }
 }
 

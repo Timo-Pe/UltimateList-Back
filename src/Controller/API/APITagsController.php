@@ -99,49 +99,5 @@ class APITagsController extends AbstractController
         );
     }
 
-    /**
-     * @Route("api/tags/{id<\d+>}", name="api_tags_delete", methods="DELETE")
-     */
-
-    public function deleteTag(Tag $tag = null, ManagerRegistry $doctrine) 
-    {
-        // ajouter un token pour autoriser le delete
-        if ($tag === null) {
-            return $this->json(['errors' => 'Le tag ne peut être supprimé car il n\' existe pas'], Response::HTTP_BAD_REQUEST);
-        }
-        
-        $entityManager = $doctrine->getManager();
-        
-        $entityManager->remove($tag);
-        $entityManager->flush();
-        return $this->json(Response::HTTP_OK );
-    }
-
-    /**
-     * @Route("api/tags/{id<\d+>}", name="api_tags_edit", methods="PUT")
-     */
-    public function editTag(Tag $tag,ManagerRegistry $doctrine, SerializerInterface $serializer, Request $request)
-    {
-        $jsonContent = $request->getContent();
-        $tagEdit = $serializer->deserialize($jsonContent, Tag::class, 'json');
-
-        $tag->setName($tagEdit->getName());
-
-        $itemsRemove = $tag->getItems();
-        foreach ($itemsRemove as $itemRemove) {
-            $tag->removeItem($itemRemove);
-        }
-
-        $items = $tagEdit->getItems();
-        foreach ($items as $item) {
-            $tag->addItem($item);
-        }
-    
-        $entityManager = $doctrine->getManager();
-        $entityManager->persist($tag);
-        $entityManager->flush();
-        return $this->json($tag, Response::HTTP_OK, [], ['groups' => 'get_tags_collection']);
-   
-    }
 }
 

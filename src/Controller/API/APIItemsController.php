@@ -3,7 +3,9 @@
 namespace App\Controller\API;
 
 use App\Entity\Item;
+use App\Entity\Mode;
 use App\Repository\ItemRepository;
+use App\Repository\ModeRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use FOS\RestBundle\Serializer\Serializer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -126,87 +128,16 @@ class APIItemsController extends AbstractController
     }
 
     /**
-     * @Route("api/items/{id<\d+>}", name="api_items_delete", methods="DELETE")
+     * @Route("/api/modes/{id<\d+>}/items", name="api_items_get_items_by_mode", methods="GET")
      */
-
-    public function deleteItem(Item $item = null, ManagerRegistry $doctrine) 
+    public function getItemsByMode(Mode $mode, ModeRepository $modeRepository) 
     {
-        // ajouter un token pour autoriser le delete
-        if ($item === null) {
-            return $this->json(['errors' => 'L\'item ne peut être supprimé car il n\' existe pas'], Response::HTTP_BAD_REQUEST);
-        }
-        
-        $entityManager = $doctrine->getManager();
-        
-        $entityManager->remove($item);
-        $entityManager->flush();
-        return $this->json(Response::HTTP_OK );
-    }
+        $listItems = $modeRepository->findItemsByMode($mode->getId());
 
-    /**
-     * @Route("api/items/{id<\d+>}", name="api_items_edit", methods="PUT")
-     */
-    public function editItem(Item $item, ManagerRegistry $doctrine, ValidatorInterface $validator, SerializerInterface $serializer, Request $request)
-    {
-        $jsonContent = $request->getContent();
-        $itemEdit = $serializer->deserialize($jsonContent, Item::class, 'json');
-        
-        $errors = $validator->validate($itemEdit);
-
-        if (count($errors) > 0) {
-            $errorsClean = [];
-            foreach ($errors as $error) {
-                $errorsClean[$error->getPropertyPath()][] = $error->getMessage();
-            };
-            return $this->json($errorsClean, Response::HTTP_UNPROCESSABLE_ENTITY);
+        if ($listItems === null){
+            return $this->json(['error' => 'Item non trouvé', Response::HTTP_NOT_FOUND]);
         }
-        
-        $item->setName($itemEdit->getName())
-             ->setDescription($itemEdit->getDescription())
-             ->setReleaseDate($itemEdit->getReleaseDate())
-             ->setImage($itemEdit->getImage())
-             ->setMode($itemEdit->getMode())
-             ->setProductor($itemEdit->getProductor())
-             ->setEditor($itemEdit->getEditor())
-             ->setAutor($itemEdit->getAutor())
-             ->setHost($itemEdit->getHost())
-             ->setDeveloper($itemEdit->getDeveloper());
-             
-        $list_itemsRemove = $item->getListItems();
-        foreach ($list_itemsRemove as $list_itemRemove) {
-            $item->removeListItem($list_itemRemove);
-        }
-   
-        $list_items = $itemEdit->getListItems();
-        foreach ($list_items as $list_item) {
-            $item->addListItem($list_item);
-        }
-        
-        $platformsRemove = $item->getPlatforms();
-        foreach ($platformsRemove as $platformRemove) {
-            $item->removePlatform($platformRemove);
-        }
-
-        $platforms = $itemEdit->getPlatforms();
-        foreach ($platforms as $platform) {
-            $item->addPlatform($platform);
-        }
-
-        $tagsRemove = $item->getTags();
-        foreach ($tagsRemove as $tagRemove) {
-            $item->removeTag($tagRemove);
-        }
-
-        $tags = $itemEdit->getTags();
-        foreach ($tags as $tag) {
-            $item->addTag($tag);
-        }
-
-        $entityManager = $doctrine->getManager();
-        $entityManager->persist($item);
-        $entityManager->flush();
-        return $this->json($item, Response::HTTP_OK, [], ['groups' => 'get_items_collection']);
-   
+        return $this->json($listItems, Response::HTTP_OK, [], ['groups' => 'get_items_collection']);
     }
 }
 

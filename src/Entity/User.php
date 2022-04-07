@@ -19,7 +19,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups("get_list_items_collection")
+     * @Groups({"get_list_items_collection", "get_users_collection"})
      */
     private $id;
 
@@ -30,7 +30,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\Column(type="json")
-     * @Groups("get_users_collection")
      */
     private $roles = [];
 

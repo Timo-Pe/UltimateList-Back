@@ -93,6 +93,15 @@ class AppFixtures extends Fixture
         $userList[] = $admin;
         $manager->persist($admin);
 
+        $user = new User();
+        $user->setUsername('user');
+        $user->setEmail('user@user.com');
+        $user->setRoles('ROLE_USER');
+        $user->setPassword('user');
+    
+        $userList[] = $user;
+        $manager->persist($user);
+
         $tabListItem = $this->listItemFixture();
         $listItemList = [];
         

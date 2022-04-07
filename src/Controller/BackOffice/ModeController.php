@@ -2,58 +2,87 @@
 
 namespace App\Controller\BackOffice;
 
+use App\Entity\Mode;
+use App\Form\ModeType;
+use App\Repository\ModeRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * @Route("/backoffice/mode")
+ */
 class ModeController extends AbstractController
 {
     /**
-     * @Route("/backoffice/mode", name="app_backoffice_mode")
+     * @Route("/", name="app_mode_index", methods={"GET"})
      */
-    public function index(): Response
+    public function index(ModeRepository $modeRepository): Response
     {
         return $this->render('mode/index.html.twig', [
-            'controller_name' => 'ModeController',
+            'modes' => $modeRepository->findAll(),
         ]);
     }
-}
 
-
-<?php
-
-namespace App\Controller\API;
-
-use App\Entity\Mode;
-use App\Repository\ModeRepository;
-use Doctrine\Persistence\ManagerRegistry;
-use FOS\RestBundle\Serializer\Serializer;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
-use JMS\Serializer\SerializerBuilder;
-use JMS\Serializer\SerializerInterface;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Serializer\Exception\NotEncodableValueException;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
-
-class APIModesController extends AbstractController
-{
     /**
-     * @Route("/api/modes", name="app_api_modes")
+     * @Route("/new", name="app_mode_new", methods={"GET", "POST"})
      */
-    public function modeList(ModeRepository $modesList): Response
+    public function new(Request $request, ModeRepository $modeRepository): Response
     {
-        $modesCollection = $modesList->findAll();
-        //$mode = $serializer->serialize($modesCollection, 'json');
-       
-        return $this->json(
-            // Les données à sérialiser (à convertir en JSON)
-            $modesCollection,
-            // Le status code
-            200,
-            // Les en-têtes de réponse à ajouter (aucune)
-            [],
-            ['groups' => 'get_modes_collection']
-        );
+        $mode = new Mode();
+        $form = $this->createForm(ModeType::class, $mode);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $modeRepository->add($mode);
+            return $this->redirectToRoute('app_mode_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('mode/new.html.twig', [
+            'mode' => $mode,
+            'form' => $form,
+        ]);
     }
+
+    /**
+     * @Route("/{id}", name="app_mode_show", methods={"GET"})
+     */
+    public function show(Mode $mode): Response
+    {
+        return $this->render('mode/show.html.twig', [
+            'mode' => $mode,
+        ]);
+    }
+
+    /**
+     * @Route("/{id}/edit", name="app_mode_edit", methods={"GET", "POST"})
+     */
+    public function edit(Request $request, Mode $mode, ModeRepository $modeRepository): Response
+    {
+        $form = $this->createForm(ModeType::class, $mode);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $modeRepository->add($mode);
+            return $this->redirectToRoute('app_mode_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('mode/edit.html.twig', [
+            'mode' => $mode,
+            'form' => $form,
+        ]);
+    }
+
+    /**
+     * @Route("/{id}", name="app_mode_delete", methods={"POST"})
+     */
+    public function delete(Request $request, Mode $mode, ModeRepository $modeRepository): Response
+    {
+        if ($this->isCsrfTokenValid('delete'.$mode->getId(), $request->request->get('_token'))) {
+            $modeRepository->remove($mode);
+        }
+
+        return $this->redirectToRoute('app_mode_index', [], Response::HTTP_SEE_OTHER);
+    }
+}

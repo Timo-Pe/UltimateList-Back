@@ -2,7 +2,11 @@
 
 namespace App\Controller\API;
 
+use App\Entity\Item;
 use App\Entity\ListItem;
+use App\Entity\Mode;
+use App\Entity\User;
+use App\Form\ListItemType;
 use App\Repository\ListItemRepository;
 use DateTimeImmutable;
 use Doctrine\Persistence\ManagerRegistry;
@@ -124,22 +128,46 @@ class APIListItemsController extends AbstractController
     }
 
     /**
-     * @Route("api/list_items/{id<\d+>}", name="api_listitems_edit", methods="PUT")
+     * @Route("api/list_items/{id<\d+>}", name="api_listitems_edit", methods={"PATCH"})
      */
     public function editListItem(ListItem $listItem, ManagerRegistry $doctrine, SerializerInterface $serializer, Request $request)
     {
         $jsonContent = $request->getContent();
         $listItemEdit = $serializer->deserialize($jsonContent, ListItem::class, 'json');
 
-        $listItem->setItemComment($listItemEdit->getItemComment())
-                ->setItemRating($listItemEdit->getItemRating())
-                ->setItemStatus($listItemEdit->getItemStatus())
-                ->setMode($listItemEdit->getMode())
-                ->setUser($listItemEdit->getUser());
+        if ($listItemEdit->getItemComment() != null) {
+            $listItem->setItemComment($listItemEdit->getItemComment());
+        }
+        else {
+            $listItem->setItemComment($listItem->getItemComment());
+        }
 
-        $itemsRemove = $listItem->getItems();
-        foreach ($itemsRemove as $itemRemove) {
-            $listItem->removeItem($itemRemove);
+        if ($listItemEdit->getItemRating() != null) {
+            $listItem->setItemRating($listItemEdit->getItemRating());
+        }
+        else {
+            $listItem->setItemRating($listItem->getItemRating());
+        }
+
+        if ($listItemEdit->getMode() != null) {
+            $listItem->setMode($listItemEdit->getMode());
+        }
+        else {
+            $listItem->setMode($listItem->getMode());
+        }
+
+        if ($listItemEdit->getUser() != null) {
+            $listItem->setUser($listItemEdit->getUser());
+        }
+        else {
+            $listItem->setUser($listItem->getUser());
+        }
+
+        if ($listItemEdit->getItemStatus() === null) {
+            $listItem->setItemStatus(0);
+        }
+        else {
+            $listItem->setItemStatus($listItemEdit->getItemStatus());
         }
 
         $items = $listItemEdit->getItems();
@@ -151,6 +179,18 @@ class APIListItemsController extends AbstractController
         $entityManager->persist($listItem);
         $entityManager->flush();
         return $this->json($listItem, Response::HTTP_OK, [], ['groups' => 'get_list_items_collection']);
+    }
+
+    /**
+     * @Route("/api/users/{userid<\d+>}/modes/{id<\d+>}/list_items", name="api_listitems_get_items_by_listItem", methods="GET")
+     */
+    public function getListItemByUser($userid, Mode $mode, ListItemRepository $listItemRepo) 
+    {
+        $userItems = $listItemRepo->findUserItemsByMode($userid, $mode->getId());
+        if ($userItems === null){
+            return $this->json(['error' => 'ListItem non trouvé', Response::HTTP_NOT_FOUND]);
+        }
+        return $this->json($userItems, Response::HTTP_OK, [], ['groups' => 'get_list_items_collection']);
     }
 }
 

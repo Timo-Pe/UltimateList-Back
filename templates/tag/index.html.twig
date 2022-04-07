@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Mode index{% endblock %}
+{% block title %}Tag index{% endblock %}
 
 {% block body %}
-    <h1>Mode index</h1>
+    <h1>Tag index</h1>
 
     <table class="table">
         <thead>
@@ -14,13 +14,13 @@
             </tr>
         </thead>
         <tbody>
-        {% for mode in modes %}
+        {% for tag in tags %}
             <tr>
-                <td>{{ mode.id }}</td>
-                <td>{{ mode.name }}</td>
+                <td>{{ tag.id }}</td>
+                <td>{{ tag.name }}</td>
                 <td>
-                    <a href="{{ path('app_mode_show', {'id': mode.id}) }}">show</a>
-                    <a href="{{ path('app_mode_edit', {'id': mode.id}) }}">edit</a>
+                    <a href="{{ path('app_tag_show', {'id': tag.id}) }}">show</a>
+                    <a href="{{ path('app_tag_edit', {'id': tag.id}) }}">edit</a>
                 </td>
             </tr>
         {% else %}
@@ -31,5 +31,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_mode_new') }}">Create new</a>
+    <a href="{{ path('app_tag_new') }}">Create new</a>
 {% endblock %}

@@ -73,4 +73,27 @@ class ListItemRepository extends ServiceEntityRepository
         ;
     }
     */
+
+
+    /**
+     * Get list of items by listItem, mode and user
+     */
+    public function findUserItemsByMode($idUser, $idMode)
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            "SELECT item.name
+            FROM App\Entity\Item item
+            INNER JOIN App\Entity\Mode mode
+            INNER JOIN App\Entity\User user
+            INNER JOIN App\Entity\ListItem listItem
+            WHERE item.mode = mode.id
+            AND listItem.user = user.id
+            AND user.id = $idUser
+            AND mode.id = $idMode"
+        );
+
+        return $query->getResult();
+    }
 }

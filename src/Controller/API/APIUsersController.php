@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\API;
 
 use App\Entity\User;
 use App\Repository\UserRepository;
@@ -15,10 +15,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\Exception\NotEncodableValueException;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-class UsersController extends AbstractController
+class APIUsersController extends AbstractController
 {
     /**
-     * @Route("/users/list", name="app_api_users")
+     * @Route("/api/users", name="app_api_users")
      */
     public function userList(UserRepository $usersList): Response
     {
@@ -37,9 +37,9 @@ class UsersController extends AbstractController
     }
 
     /**
-     * @Route("/users/{id<\d+>}", name="api_users_get_user", methods={"GET"})
+     * @Route("/api/users/{id<\d+>}", name="api_users_get_user", methods={"GET"})
      */
-    public function getUser(User $user = null) 
+    public function getUser(User $user = null)
     {
         if ($user === null){
             return $this->json(['error' => 'User non trouvé', Response::HTTP_NOT_FOUND]);
@@ -48,7 +48,7 @@ class UsersController extends AbstractController
     }
 
     /**
-     * @Route("/users/create", name="app_api_create_users", methods={"POST"})
+     * @Route("/api/users/create", name="app_api_create_users", methods={"POST"})
      */
     public function createUser(Request $request, SerializerInterface $serializer, ManagerRegistry $doctrine, ValidatorInterface $validator): Response
     {
@@ -111,7 +111,7 @@ class UsersController extends AbstractController
     }
 
     /**
-     * @Route("/users/{id<\d+>}", name="api_users_delete", methods={"DELETE"})
+     * @Route("/api/users/{id<\d+>}", name="api_users_delete", methods={"DELETE"})
      */
 
     public function deleteUser(User $user = null, ManagerRegistry $doctrine) 
@@ -129,7 +129,7 @@ class UsersController extends AbstractController
     }
 
     /**
-     * @Route("/users/{id<\d+>}", name="api_users_edit", methods={"PUT"})
+     * @Route("/api/users/{id<\d+>}", name="api_users_edit", methods={"PUT"})
      */
     public function editUser(User $user,ManagerRegistry $doctrine, SerializerInterface $serializer, Request $request)
     {
@@ -159,7 +159,6 @@ class UsersController extends AbstractController
         $entityManager->persist($user);
         $entityManager->flush();
         return $this->json($user, Response::HTTP_OK, [], ['groups' => 'get_users_collection']);
-   
     }
 }
 

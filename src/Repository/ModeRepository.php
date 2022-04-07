@@ -73,4 +73,23 @@ class ModeRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    /**
+     * Get list of items by mode
+     */
+    public function findItemsByMode($id)
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            "SELECT item.name
+            FROM App\Entity\Item item
+            INNER JOIN App\Entity\Mode mode
+            WHERE item.mode = mode.id
+            AND mode.id = $id"
+        );
+
+        return $query->getResult();
+    }
+
 }
