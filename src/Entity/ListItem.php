@@ -17,7 +17,7 @@ class ListItem
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups({"get_items_collection", "get_users_collection", "get_list_items_collection", "get_modes_collection"})
+     * @Groups({"get_platforms_collection", "get_items_collection", "get_list_items_collection", "get_modes_collection", "get_tags_collection"})
      */
     private $id;
 

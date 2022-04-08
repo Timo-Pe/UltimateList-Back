@@ -17,86 +17,86 @@ class Item
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups({"get_tags_collection", "get_modes_collection", "get_platforms_collection", "get_list_items_collection", "get_items_collection"})
+     * @Groups({"get_platforms_collection", "get_items_collection", "get_list_items_collection", "get_modes_collection", "get_tags_collection"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=64)
-     * @Groups({"get_items_collection", "get_list_items_collection"})
+     * @Groups({"get_platforms_collection", "get_items_collection", "get_list_items_collection", "get_modes_collection", "get_tags_collection"})
      */
     private $name;
 
     /**
      * @ORM\Column(type="text")
-     * @Groups("get_items_collection")
+     * @Groups({"get_platforms_collection", "get_items_collection", "get_list_items_collection", "get_modes_collection", "get_tags_collection"})
      */
     private $description;
 
     /**
      * @ORM\Column(type="date")
-     * @Groups("get_items_collection")
+     * @Groups({"get_platforms_collection", "get_items_collection", "get_list_items_collection", "get_modes_collection", "get_tags_collection"})
      */
     private $release_date;
 
     /**
      * @ORM\Column(type="string", length=64, nullable=true)
-     * @Groups("get_items_collection")
+     * @Groups({"get_platforms_collection", "get_items_collection", "get_list_items_collection", "get_modes_collection", "get_tags_collection"})
      */
     private $productor;
 
     /**
      * @ORM\Column(type="string", length=64, nullable=true)
-     * @Groups("get_items_collection")
+     * @Groups({"get_platforms_collection", "get_items_collection", "get_list_items_collection", "get_modes_collection", "get_tags_collection"})
      */
     private $autor;
 
     /**
      * @ORM\Column(type="string", length=64, nullable=true)
-     * @Groups("get_items_collection")
+     * @Groups({"get_platforms_collection", "get_items_collection", "get_list_items_collection", "get_modes_collection", "get_tags_collection"})
      */
     private $host;
 
     /**
      * @ORM\Column(type="string", length=64, nullable=true)
-     * @Groups("get_items_collection")
+     * @Groups({"get_platforms_collection", "get_items_collection", "get_list_items_collection", "get_modes_collection", "get_tags_collection"})
      */
     private $developer;
 
     /**
      * @ORM\Column(type="string", length=64, nullable=true)
-     * @Groups("get_items_collection")
+     * @Groups({"get_platforms_collection", "get_items_collection", "get_list_items_collection", "get_modes_collection", "get_tags_collection"})
      */
     private $editor;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups("get_items_collection")
+     * @Groups({"get_platforms_collection", "get_items_collection", "get_list_items_collection", "get_modes_collection", "get_tags_collection"})
      */
     private $image;
 
     /**
      * @ORM\ManyToOne(targetEntity=Mode::class, inversedBy="items", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
-     * @Groups("get_items_collection")
+     * @Groups({"get_platforms_collection", "get_items_collection", "get_list_items_collection", "get_tags_collection"})
      */
     private $mode;
 
     /**
      * @ORM\ManyToMany(targetEntity=ListItem::class, inversedBy="items", cascade={"persist"})
-     * @Groups("get_items_collection")
+     * @Groups({"get_platforms_collection", "get_items_collection", "get_modes_collection", "get_tags_collection"})
      */
     private $list_items;
 
     /**
      * @ORM\ManyToMany(targetEntity=Platform::class, inversedBy="items", cascade={"persist"})
-     * @Groups("get_items_collection")
+     * @Groups({"get_items_collection", "get_list_items_collection", "get_modes_collection", "get_tags_collection"})
      */
     private $platforms;
 
     /**
      * @ORM\ManyToMany(targetEntity=Tag::class, inversedBy="items", cascade={"persist"})
-     * @Groups("get_items_collection")
+     * @Groups({"get_platforms_collection", "get_items_collection", "get_list_items_collection", "get_modes_collection"})
      */
     private $tags;
 

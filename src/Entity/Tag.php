@@ -17,13 +17,13 @@ class Tag
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups({"get_tags_collection", "get_items_collection"})
+     * @Groups({"get_platforms_collection", "get_items_collection", "get_list_items_collection", "get_modes_collection", "get_tags_collection"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=64)
-     * @Groups("get_tags_collection")
+     * @Groups({"get_platforms_collection", "get_items_collection", "get_list_items_collection", "get_modes_collection", "get_tags_collection"})
      */
     private $name;
 
