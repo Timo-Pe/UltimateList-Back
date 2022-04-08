@@ -46,20 +46,20 @@ class ListItem
     private $item_rating;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Item::class, mappedBy="list_items")
+     * @ORM\ManyToMany(targetEntity=Item::class, mappedBy="list_items", cascade={"persist"})
      * @Groups("get_list_items_collection")
      */
     private $items;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Mode::class, inversedBy="listItems")
+     * @ORM\ManyToOne(targetEntity=Mode::class, inversedBy="listItems", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      * @Groups("get_list_items_collection")
      */
     private $mode;
 
     /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="listItems")
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="listItems", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      * @Groups("get_list_items_collection")
      */

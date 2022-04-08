@@ -23,7 +23,7 @@ class Item
 
     /**
      * @ORM\Column(type="string", length=64)
-     * @Groups("get_items_collection")
+     * @Groups({"get_items_collection", "get_list_items_collection"})
      */
     private $name;
 
@@ -76,14 +76,14 @@ class Item
     private $image;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Mode::class, inversedBy="items")
+     * @ORM\ManyToOne(targetEntity=Mode::class, inversedBy="items", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      * @Groups("get_items_collection")
      */
     private $mode;
 
     /**
-     * @ORM\ManyToMany(targetEntity=ListItem::class, inversedBy="items")
+     * @ORM\ManyToMany(targetEntity=ListItem::class, inversedBy="items", cascade={"persist"})
      * @Groups("get_items_collection")
      */
     private $list_items;
@@ -95,7 +95,7 @@ class Item
     private $platforms;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Tag::class, inversedBy="items")
+     * @ORM\ManyToMany(targetEntity=Tag::class, inversedBy="items", cascade={"persist"})
      * @Groups("get_items_collection")
      */
     private $tags;

@@ -2,28 +2,25 @@
 
 namespace App\Controller\API;
 
-use App\Entity\Item;
 use App\Entity\ListItem;
-use App\Entity\Mode;
-use App\Entity\User;
-use App\Form\ListItemType;
 use App\Repository\ListItemRepository;
 use DateTimeImmutable;
 use Doctrine\Persistence\ManagerRegistry;
-use FOS\RestBundle\Serializer\Serializer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use JMS\Serializer\SerializerBuilder;
-use JMS\Serializer\SerializerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\Exception\NotEncodableValueException;
+use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Symfony\Component\Serializer\SerializerInterface;
 
 class APIListItemsController extends AbstractController
 {
     /**
      * @Route("/api/list_items", name="app_api_listItems")
+     * Affiche la liste des items de l'utilisateurs
+     * Besoin Front : pour les listes d'items par utilisateurs (filtre à faire par le front)
      */
     public function listItemList(ListItemRepository $listItemsList): Response
     {
@@ -43,6 +40,8 @@ class APIListItemsController extends AbstractController
 
     /**
      * @Route("/api/list_items/{id<\d+>}", name="api_listitems_get_listItem", methods="GET")
+     * Affiche les infos d'un seul item d'un utilisateurs
+     * Besoin Front : pour les détails de cards d'un item utilisateur
      */
     public function getListItem(ListItem $listItem = null) 
     {
@@ -54,6 +53,8 @@ class APIListItemsController extends AbstractController
 
     /**
      * @Route("/api/list_items/create", name="app_api_create_listItems", methods="POST")
+     * Créer les infos de liste sur l'item de l'utilisateur
+     * Besoin Front : quand clique sur ajouter un item, ajoute des infos/préférences pour l'utilisateur
      */
     public function createListItem(Request $request, SerializerInterface $serializer, ManagerRegistry $doctrine, ValidatorInterface $validator): Response
     {
@@ -81,9 +82,9 @@ class APIListItemsController extends AbstractController
         $newListItem = new ListItem();
 
         $newListItem->setItemAddedAt(new DateTimeImmutable("NOW"))
-                    ->setItemComment($listItem->getItemComment())
-                    ->setItemRating($listItem->getItemRating())
-                    ->setItemStatus($listItem->getItemStatus())
+                    ->setItemComment(null)
+                    ->setItemRating(null)
+                    ->setItemStatus(0)
                     ->setMode($listItem->getMode())
                     ->setUser($listItem->getUser());
 
@@ -111,6 +112,8 @@ class APIListItemsController extends AbstractController
 
     /**
      * @Route("api/list_items/{id<\d+>}", name="api_listItems_delete", methods="DELETE")
+     * Enlève les infos/préférences d'un item utilisateur
+     * Besoin Front : quand l'utilisateur veut supprimer un item de sa liste
      */
 
     public function deleteListItem(ListItem $listItem = null, ManagerRegistry $doctrine) 
@@ -128,69 +131,21 @@ class APIListItemsController extends AbstractController
     }
 
     /**
-     * @Route("api/list_items/{id<\d+>}", name="api_listitems_edit", methods={"PATCH"})
+     * @Route("api/list_items/{id<\d+>}", name="api_listitems_edit", methods={"PATCH"})*
+     * Modifie les infos/préférences d'un item utilisateur
+     * Besoin Front : quanbd l'utilisateur veut ajouter/modifier une info/pref (ex : commentaire ou vu/en cours)
      */
     public function editListItem(ListItem $listItem, ManagerRegistry $doctrine, SerializerInterface $serializer, Request $request)
     {
         $jsonContent = $request->getContent();
-        $listItemEdit = $serializer->deserialize($jsonContent, ListItem::class, 'json');
+        $listItemEdit = $serializer->deserialize($jsonContent, ListItem::class, 'json', [AbstractNormalizer::OBJECT_TO_POPULATE => $listItem]);
 
-        if ($listItemEdit->getItemComment() != null) {
-            $listItem->setItemComment($listItemEdit->getItemComment());
-        }
-        else {
-            $listItem->setItemComment($listItem->getItemComment());
-        }
-
-        if ($listItemEdit->getItemRating() != null) {
-            $listItem->setItemRating($listItemEdit->getItemRating());
-        }
-        else {
-            $listItem->setItemRating($listItem->getItemRating());
-        }
-
-        if ($listItemEdit->getMode() != null) {
-            $listItem->setMode($listItemEdit->getMode());
-        }
-        else {
-            $listItem->setMode($listItem->getMode());
-        }
-
-        if ($listItemEdit->getUser() != null) {
-            $listItem->setUser($listItemEdit->getUser());
-        }
-        else {
-            $listItem->setUser($listItem->getUser());
-        }
-
-        if ($listItemEdit->getItemStatus() === null) {
-            $listItem->setItemStatus(0);
-        }
-        else {
-            $listItem->setItemStatus($listItemEdit->getItemStatus());
-        }
-
-        $items = $listItemEdit->getItems();
-        foreach ($items as $item) {
-            $listItem->addItem($item);
-        }
 
         $entityManager = $doctrine->getManager();
-        $entityManager->persist($listItem);
+        $entityManager->persist($listItemEdit);
         $entityManager->flush();
         return $this->json($listItem, Response::HTTP_OK, [], ['groups' => 'get_list_items_collection']);
     }
 
-    /**
-     * @Route("/api/users/{userid<\d+>}/modes/{id<\d+>}/list_items", name="api_listitems_get_items_by_listItem", methods="GET")
-     */
-    public function getListItemByUser($userid, Mode $mode, ListItemRepository $listItemRepo) 
-    {
-        $userItems = $listItemRepo->findUserItemsByMode($userid, $mode->getId());
-        if ($userItems === null){
-            return $this->json(['error' => 'ListItem non trouvé', Response::HTTP_NOT_FOUND]);
-        }
-        return $this->json($userItems, Response::HTTP_OK, [], ['groups' => 'get_list_items_collection']);
-    }
 }
 

@@ -28,7 +28,7 @@ class Tag
     private $name;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Item::class, mappedBy="tags")
+     * @ORM\ManyToMany(targetEntity=Item::class, mappedBy="tags", cascade={"persist"})
      * @Groups("get_tags_collection")
      */
     private $items;

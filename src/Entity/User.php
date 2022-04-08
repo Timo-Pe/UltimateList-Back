@@ -47,7 +47,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $email;
 
     /**
-     * @ORM\OneToMany(targetEntity=ListItem::class, mappedBy="user")
+     * @ORM\OneToMany(targetEntity=ListItem::class, mappedBy="user", cascade={"persist"})
      * 
      */
     private $listItems;

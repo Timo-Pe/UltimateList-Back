@@ -7,20 +7,20 @@ use App\Entity\Mode;
 use App\Repository\ItemRepository;
 use App\Repository\ModeRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use FOS\RestBundle\Serializer\Serializer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use JMS\Serializer\SerializerBuilder;
-use JMS\Serializer\SerializerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\Exception\NotEncodableValueException;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Symfony\Component\Serializer\SerializerInterface;
 
 class APIItemsController extends AbstractController
 {
     /**
      * @Route("/api/items", name="app_api_items")
+     * Affiche la liste des items
+     * Besoin Front : pour les recommandations et les recherches
      */
     public function itemList(ItemRepository $itemsList): Response
     {
@@ -40,6 +40,8 @@ class APIItemsController extends AbstractController
 
     /**
      * @Route("/api/items/{id<\d+>}", name="api_items_get_item", methods="GET")
+     * Affiche les infos d'un item
+     * Besoin Front : pour les détails des cards items
      */
     public function getItem(Item $item = null) 
     {
@@ -51,6 +53,8 @@ class APIItemsController extends AbstractController
 
     /**
      * @Route("/api/items/create", name="app_api_create_items", methods="POST")
+     * Créer un item
+     * Besoin Front : (futures versions) proposition d'un item par un utilisateur 
      */
     public function createItem(Request $request, SerializerInterface $serializer, ManagerRegistry $doctrine, ValidatorInterface $validator): Response
     {
@@ -129,6 +133,8 @@ class APIItemsController extends AbstractController
 
     /**
      * @Route("/api/modes/{id<\d+>}/items", name="api_items_get_items_by_mode", methods="GET")
+     * Affiche la liste des items selon le mode
+     * Besoin Front : pour les recommandations et les recherches (facilitation par rapport à l'affiche de toute la liste)
      */
     public function getItemsByMode(Mode $mode, ModeRepository $modeRepository) 
     {
@@ -139,5 +145,6 @@ class APIItemsController extends AbstractController
         }
         return $this->json($listItems, Response::HTTP_OK, [], ['groups' => 'get_items_collection']);
     }
+
 }
 

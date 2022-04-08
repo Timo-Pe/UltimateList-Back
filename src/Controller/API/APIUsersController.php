@@ -5,11 +5,9 @@ namespace App\Controller\API;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use FOS\RestBundle\Serializer\Serializer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use JMS\Serializer\SerializerBuilder;
 use JMS\Serializer\SerializerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\Exception\NotEncodableValueException;
@@ -19,6 +17,8 @@ class APIUsersController extends AbstractController
 {
     /**
      * @Route("/api/users", name="app_api_users")
+     * Affiche la liste des users
+     * Besoin Front : (future version) recherche des users
      */
     public function userList(UserRepository $usersList): Response
     {
@@ -38,6 +38,8 @@ class APIUsersController extends AbstractController
 
     /**
      * @Route("/api/users/{id<\d+>}", name="api_users_get_user", methods={"GET"})
+     * Afficher les infos d'un utilisateur
+     * Besoin Front : afficher le profil utilisateur
      */
     public function getUser(User $user = null)
     {
@@ -49,6 +51,8 @@ class APIUsersController extends AbstractController
 
     /**
      * @Route("/api/users/create", name="app_api_create_users", methods={"POST"})
+     * Créer un user
+     * Besoin Front : inscription au site
      */
     public function createUser(Request $request, SerializerInterface $serializer, ManagerRegistry $doctrine, ValidatorInterface $validator): Response
     {
@@ -112,6 +116,8 @@ class APIUsersController extends AbstractController
 
     /**
      * @Route("/api/users/{id<\d+>}", name="api_users_delete", methods={"DELETE"})
+     * Supprimer user
+     * Besoin Front : supprimer son compte
      */
 
     public function deleteUser(User $user = null, ManagerRegistry $doctrine) 
@@ -130,6 +136,8 @@ class APIUsersController extends AbstractController
 
     /**
      * @Route("/api/users/{id<\d+>}", name="api_users_edit", methods={"PUT"})
+     * Modifier user
+     * Besoin Front : modifier le profil
      */
     public function editUser(User $user,ManagerRegistry $doctrine, SerializerInterface $serializer, Request $request)
     {

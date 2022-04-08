@@ -28,13 +28,13 @@ class Platform
     private $name;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Mode::class, mappedBy="platforms")
+     * @ORM\ManyToMany(targetEntity=Mode::class, mappedBy="platforms", cascade={"persist"})
      * @Groups("get_platforms_collection")
      */
     private $modes;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Item::class, mappedBy="platforms")
+     * @ORM\ManyToMany(targetEntity=Item::class, mappedBy="platforms", cascade={"persist"})
      * @Groups("get_platforms_collection")
      */
     private $items;

@@ -5,11 +5,9 @@ namespace App\Controller\API;
 use App\Entity\Platform;
 use App\Repository\PlatformRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use FOS\RestBundle\Serializer\Serializer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use JMS\Serializer\SerializerBuilder;
 use JMS\Serializer\SerializerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\Exception\NotEncodableValueException;
@@ -19,11 +17,12 @@ class APIPlatformsController extends AbstractController
 {
     /**
      * @Route("/api/platforms", name="app_api_platforms")
+     * Affiche la liste des plateformes
+     * Besoin Front : pour les recherches
      */
     public function platformList(PlatformRepository $platformsList): Response
     {
         $platformsCollection = $platformsList->findAll();
-        //$platform = $serializer->serialize($platformsCollection, 'json');
        
         return $this->json(
             // Les données à sérialiser (à convertir en JSON)
@@ -37,18 +36,9 @@ class APIPlatformsController extends AbstractController
     }
 
     /**
-     * @Route("/api/platforms/{id<\d+>}", name="api_platforms_get_platform", methods="GET")
-     */
-    public function getPlatform(Platform $platform = null) 
-    {
-        if ($platform === null){
-            return $this->json(['error' => 'Platform non trouvé', Response::HTTP_NOT_FOUND]);
-        }
-        return $this->json($platform, Response::HTTP_OK, [], ['groups' => 'get_platforms_collection']);
-    }
-
-    /**
      * @Route("/api/platforms/create", name="app_api_create_platforms", methods="POST")
+     * Créer une plateforme
+     * Besoin Front : (future version) proposition d'une nouvelle plateforme
      */
     public function createPlatform(Request $request, SerializerInterface $serializer, ManagerRegistry $doctrine, ValidatorInterface $validator): Response
     {

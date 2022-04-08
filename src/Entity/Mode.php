@@ -28,19 +28,19 @@ class Mode
     private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity=Item::class, mappedBy="mode")
+     * @ORM\OneToMany(targetEntity=Item::class, mappedBy="mode", cascade={"persist"})
      * @Groups("get_modes_collection")
      */
     private $items;
 
     /**
-     * @ORM\OneToMany(targetEntity=ListItem::class, mappedBy="mode")
+     * @ORM\OneToMany(targetEntity=ListItem::class, mappedBy="mode", cascade={"persist"})
      * @Groups("get_modes_collection")
      */
     private $listItems;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Platform::class, inversedBy="modes")
+     * @ORM\ManyToMany(targetEntity=Platform::class, inversedBy="modes", cascade={"persist"})
      * @Groups("get_modes_collection")
      */
     private $platforms;

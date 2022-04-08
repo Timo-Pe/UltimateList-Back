@@ -5,11 +5,9 @@ namespace App\Controller\API;
 use App\Entity\Tag;
 use App\Repository\TagRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use FOS\RestBundle\Serializer\Serializer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use JMS\Serializer\SerializerBuilder;
 use JMS\Serializer\SerializerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\Exception\NotEncodableValueException;
@@ -19,6 +17,8 @@ class APITagsController extends AbstractController
 {
     /**
      * @Route("/api/tags", name="app_api_tags")
+     * Affiche la liste des tags
+     * Besoin Front : pour les recommandations et les recherches
      */
     public function tagList(TagRepository $tagsList): Response
     {
@@ -37,18 +37,9 @@ class APITagsController extends AbstractController
     }
 
     /**
-     * @Route("/api/tags/{id<\d+>}", name="api_tags_get_tag", methods="GET")
-     */
-    public function getTag(Tag $tag = null) 
-    {
-        if ($tag === null){
-            return $this->json(['error' => 'Tag non trouvé', Response::HTTP_NOT_FOUND]);
-        }
-        return $this->json($tag, Response::HTTP_OK, [], ['groups' => 'get_tags_collection']);
-    }
-
-    /**
      * @Route("/api/tags/create", name="app_api_create_tags", methods="POST")
+     * Créer un tag
+     * Besoin Front : (future version) proposition d'un nouveau tag
      */
     public function createTag(Request $request, SerializerInterface $serializer, ManagerRegistry $doctrine, ValidatorInterface $validator): Response
     {
