@@ -12,6 +12,7 @@ use DateTime;
 use DateTimeImmutable;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class AppFixtures extends Fixture
 {
@@ -89,7 +90,16 @@ class AppFixtures extends Fixture
         $admin->setUsername('admin');
         $admin->setEmail('admin@admin.com');
         $admin->setRoles('ROLE_ADMIN');
-        $admin->setPassword('$2y$13$.PJiDK3kq2C4owW5RW6Z3ukzRc14TJZRPcMfXcCy9AyhhA9OMK3Li');
+        $plaintextPassword = "admin";
+
+        $passwordHasher = new UserPasswordHasherInterface;
+
+        $hashedPassword = $passwordHasher->hashPassword(
+            $admin,
+            $plaintextPassword
+        );
+        
+        $admin->setPassword($hashedPassword);
         $userList[] = $admin;
         $manager->persist($admin);
 
@@ -234,7 +244,7 @@ class AppFixtures extends Fixture
              "autor" => null,
              "host" => null,
              "developer" => "Elie, Justine, Abdel, Bryan, Fabien",
-             "editor" => "EJABF",
+             "editor" => "O'Clock",
              "picture" => "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSDR5jrcS-OvSUirhrmPccnzXMY7gvqd4RIBA&usqp=CAU",
              "modeIndex" => 1,
              "platformIndex" => [1],

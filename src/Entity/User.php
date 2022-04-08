@@ -25,6 +25,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Groups("get_users_collection")
      */
     private $username;
 
@@ -48,6 +49,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\OneToMany(targetEntity=ListItem::class, mappedBy="user", cascade={"persist"})
+     * @Groups("get_users_collection")
      * 
      */
     private $listItems;
@@ -90,13 +92,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @see UserInterface
      */
-    public function getRoles(): array
+    public function getRoles(): string
     {
         $roles = $this->roles;
         // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
+        $roles = 'ROLE_USER';
 
-        return array_unique($roles);
+        return (string) $roles;
     }
 
     public function setRoles(string $roles): self

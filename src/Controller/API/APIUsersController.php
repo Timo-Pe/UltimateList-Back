@@ -8,10 +8,13 @@ use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use JMS\Serializer\SerializerInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasher;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Serializer\Exception\NotEncodableValueException;
+use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Symfony\Component\Serializer\SerializerInterface;
 
 class APIUsersController extends AbstractController
 {
@@ -54,7 +57,7 @@ class APIUsersController extends AbstractController
      * Créer un user
      * Besoin Front : inscription au site
      */
-    public function createUser(Request $request, SerializerInterface $serializer, ManagerRegistry $doctrine, ValidatorInterface $validator): Response
+    public function createUser(UserPasswordHasherInterface $passwordHasher, Request $request, SerializerInterface $serializer, ManagerRegistry $doctrine, ValidatorInterface $validator): Response
     {
         $jsonContent = $request->getContent();
 
@@ -80,19 +83,24 @@ class APIUsersController extends AbstractController
         $newUser = new User();
 
         $newUser->setUsername($user->getUsername())
-                ->setPassword($user->getPassword())
                 ->setEmail($user->getEmail());
+
+        $plaintextPassword = $user->getPassword();
+        $hashedPassword = $passwordHasher->hashPassword(
+            $newUser,
+            $plaintextPassword
+        );
+        $newUser->setPassword($hashedPassword);
                 
         $roles = $user->getRoles();
       
-
         foreach ($roles as $role) {
             
             $newUser->setRoles($role);
             
         }
+        
         $listItems = $user->getListItems();
-
         foreach ($listItems as $listItem) {
             $newUser->addListItem($listItem);
         }
@@ -135,23 +143,27 @@ class APIUsersController extends AbstractController
     }
 
     /**
-     * @Route("/api/users/{id<\d+>}", name="api_users_edit", methods={"PUT"})
+     * @Route("/api/users/{id<\d+>}", name="api_users_edit", methods={"PATCH"})
      * Modifier user
      * Besoin Front : modifier le profil
      */
-    public function editUser(User $user,ManagerRegistry $doctrine, SerializerInterface $serializer, Request $request)
+    public function editUser(UserPasswordHasherInterface $passwordHasher, User $user,ManagerRegistry $doctrine, SerializerInterface $serializer, Request $request)
     {
         $jsonContent = $request->getContent();
-        $userEdit = $serializer->deserialize($jsonContent, User::class, 'json');
+        $userEdit = $serializer->deserialize($jsonContent, User::class, 'json', [AbstractNormalizer::OBJECT_TO_POPULATE => $user]);
 
         $user->setUsername($userEdit->getUsername())
-             ->setPassword($userEdit->getPassword())
              ->setEmail($userEdit->getEmail());
 
-        $roles = $userEdit->getRoles();
-        foreach ($roles as $role) {
-            $user->setRoles($role);
-        }
+
+        $plaintextPassword = $userEdit->getPassword();
+        $hashedPassword = $passwordHasher->hashPassword(
+            $user,
+            $plaintextPassword
+        );
+        $user->setPassword($hashedPassword);
+
+        $user->setRoles($userEdit->getRoles());
 
         $listItemsRemove = $user->getListItems();
         foreach ($listItemsRemove as $listItemRemove) {
