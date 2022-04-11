@@ -144,6 +144,7 @@ class APIUsersController extends AbstractController
      */
     public function editUser(UserPasswordHasherInterface $passwordHasher, User $user,ManagerRegistry $doctrine, SerializerInterface $serializer, Request $request)
     {
+        $this->denyAccessUnlessGranted('USER_EDIT', $user);
         $jsonContent = $request->getContent();
         $userEdit = $serializer->deserialize($jsonContent, User::class, 'json', [AbstractNormalizer::OBJECT_TO_POPULATE => $user]);
         
