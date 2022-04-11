@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
@@ -26,11 +27,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @ORM\Column(type="string", length=180, unique=true)
      * @Groups("get_users_collection")
+     * @Assert\NotNull
      */
     private $username;
 
     /**
-     * @ORM\Column(type="json")
+     * @ORM\Column(type="json")     
+     * @Groups("get_users_collection")
      */
     private $roles = [];
 
@@ -38,12 +41,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string The hashed password
      * @ORM\Column(type="string")
      * @Groups("get_users_collection")
+     * @Assert\NotNull
      */
     private $password;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups("get_users_collection")
+     * @Assert\NotNull
      */
     private $email;
 
@@ -92,16 +97,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @see UserInterface
      */
-    public function getRoles(): string
+    public function getRoles(): array
     {
         $roles = $this->roles;
         // guarantee every user at least has ROLE_USER
-        $roles = 'ROLE_USER';
+        $roles[] = 'ROLE_USER';
 
-        return (string) $roles;
+        return array_unique($roles);
     }
 
-    public function setRoles(string $roles): self
+    public function setRoles(array $roles): self
     {
         $this->roles = $roles;
 

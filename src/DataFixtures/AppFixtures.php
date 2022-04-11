@@ -89,24 +89,15 @@ class AppFixtures extends Fixture
         $admin = new User();
         $admin->setUsername('admin');
         $admin->setEmail('admin@admin.com');
-        $admin->setRoles('ROLE_ADMIN');
-        $plaintextPassword = "admin";
-
-        $passwordHasher = new UserPasswordHasherInterface;
-
-        $hashedPassword = $passwordHasher->hashPassword(
-            $admin,
-            $plaintextPassword
-        );
-        
-        $admin->setPassword($hashedPassword);
+        $admin->setRoles(['ROLE_ADMIN']);
+        $admin->setPassword('admin');
         $userList[] = $admin;
         $manager->persist($admin);
 
         $user = new User();
         $user->setUsername('user');
         $user->setEmail('user@user.com');
-        $user->setRoles('ROLE_USER');
+        $user->setRoles(['ROLE_USER']);
         $user->setPassword('user');
     
         $userList[] = $user;
@@ -140,8 +131,8 @@ class AppFixtures extends Fixture
     {
         $tabMode = 
         [
-            "podcast",
-            "videoGames",
+            "podcasts",
+            "jeuxvideo",
         ];
 
         return $tabMode;
@@ -195,18 +186,18 @@ class AppFixtures extends Fixture
              "tagIndex" => [0,1,2]
             ],
             [
-                "name" => "Horizon forbidden west", 
-                "description" => "orizon Forbidden West est un jeu vidéo d'action-RPG développé par Guerrilla Games et publié par Sony Interactive Entertainment.", 
-                "release_date" => new DateTime('2022-02-18'), 
-                "productor" => null,
-                "autor" => null,
-                "host" => null,
-                "developer" => "Sony Interactive Entertainment",
-                "editor" => "Sony Interactive Entertainment",
-                "picture" => "https://image.jeuxvideo.com/medias/163293/1632927582-7714-jaquette-avant.gif",
-                "modeIndex" => 1,
-                "platformIndex" => [0,1,2],
-                "tagIndex" => [1,2]
+            "name" => "Horizon forbidden west", 
+            "description" => "orizon Forbidden West est un jeu vidéo d'action-RPG développé par Guerrilla Games et publié par Sony Interactive Entertainment.", 
+            "release_date" => new DateTime('2022-02-18'), 
+            "productor" => null,
+            "autor" => null,
+            "host" => null,
+            "developer" => "Sony Interactive Entertainment",
+            "editor" => "Sony Interactive Entertainment",
+            "picture" => "https://image.jeuxvideo.com/medias/163293/1632927582-7714-jaquette-avant.gif",
+            "modeIndex" => 1,
+            "platformIndex" => [0,1,2],
+            "tagIndex" => [1,2]
             ],
             [
              "name" => "Les Couilles sur la table", 
@@ -262,7 +253,7 @@ class AppFixtures extends Fixture
             [
              "item_added_at" => new DateTimeImmutable('NOW'),
              "item_status" => 1, 
-             "item_comment" => null, 
+             "item_comment" => "Tip top moumoute", 
              "item_rating" => null,
              "modeIndex" => 1,
              "itemIndex" => 0,
@@ -271,11 +262,20 @@ class AppFixtures extends Fixture
             [
              "item_added_at" => new DateTimeImmutable('NOW'),
              "item_status" => 0, 
-             "item_comment" => "Super podcast, j'ai adoré !", 
+             "item_comment" => null, 
              "item_rating" => 9,
              "modeIndex" => 0,
              "itemIndex" => 2,
              "user" => 0
+            ],
+            [
+             "item_added_at" => new DateTimeImmutable('NOW'),
+             "item_status" => 2, 
+             "item_comment" => "Incroyable !!", 
+             "item_rating" => 10,
+             "modeIndex" => 1,
+             "itemIndex" => 4,
+             "user" => 1
             ]
         ];
 

@@ -75,7 +75,7 @@ class APIUsersController extends AbstractController
         if (count($errors) > 0) {
             $errorsClean = [];
             foreach ($errors as $error) {
-                $errorsClean[$error->getPropertyPath()][] = $error->getMessage();
+                $errorsClean[$error->getPropertyPath()][] = "Attention ce champ est invalide !";
             };
             return $this->json($errorsClean, Response::HTTP_UNPROCESSABLE_ENTITY);
         }
@@ -93,13 +93,8 @@ class APIUsersController extends AbstractController
         $newUser->setPassword($hashedPassword);
                 
         $roles = $user->getRoles();
-      
-        foreach ($roles as $role) {
-            
-            $newUser->setRoles($role);
-            
-        }
-        
+        $newUser->setRoles($roles);   
+
         $listItems = $user->getListItems();
         foreach ($listItems as $listItem) {
             $newUser->addListItem($listItem);
@@ -151,7 +146,7 @@ class APIUsersController extends AbstractController
     {
         $jsonContent = $request->getContent();
         $userEdit = $serializer->deserialize($jsonContent, User::class, 'json', [AbstractNormalizer::OBJECT_TO_POPULATE => $user]);
-
+        
         $user->setUsername($userEdit->getUsername())
              ->setEmail($userEdit->getEmail());
 
@@ -162,18 +157,19 @@ class APIUsersController extends AbstractController
             $plaintextPassword
         );
         $user->setPassword($hashedPassword);
+        
+        $user->setRoles( $userEdit->getRoles());
 
-        $user->setRoles($userEdit->getRoles());
 
-        $listItemsRemove = $user->getListItems();
-        foreach ($listItemsRemove as $listItemRemove) {
-            $user->removeListItem($listItemRemove);
-        }
+        // $listItemsRemove = $user->getListItems();
+        // foreach ($listItemsRemove as $listItemRemove) {
+        //     $user->removeListItem($listItemRemove);
+        // }
 
-        $listItems = $userEdit->getListItems();
-        foreach ($listItems as $listItem) {
-            $user->addListItem($listItem);
-        }
+        // $listItems = $userEdit->getListItems();
+        // foreach ($listItems as $listItem) {
+        //     $user->addListItem($listItem);
+        // }
     
         $entityManager = $doctrine->getManager();
         $entityManager->persist($user);
