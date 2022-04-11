@@ -11,10 +11,12 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasher;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Serializer\Exception\NotEncodableValueException;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Component\Serializer\SerializerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 class APIUsersController extends AbstractController
 {
@@ -49,6 +51,7 @@ class APIUsersController extends AbstractController
         if ($user === null){
             return $this->json(['error' => 'User non trouvé', Response::HTTP_NOT_FOUND]);
         }
+
         return $this->json($user, Response::HTTP_OK, [], ['groups' => 'get_users_collection']);
     }
 
@@ -125,7 +128,6 @@ class APIUsersController extends AbstractController
 
     public function deleteUser(User $user = null, ManagerRegistry $doctrine) 
     {
-        // ajouter un token pour autoriser le delete
         if ($user === null) {
             return $this->json(['errors' => 'Le user ne peut être supprimé car il n\' existe pas'], Response::HTTP_BAD_REQUEST);
         }
@@ -142,14 +144,15 @@ class APIUsersController extends AbstractController
      * Modifier user
      * Besoin Front : modifier le profil
      */
-    public function editUser(UserPasswordHasherInterface $passwordHasher, User $user,ManagerRegistry $doctrine, SerializerInterface $serializer, Request $request)
+    
+    public function editUser(UserPasswordHasherInterface $passwordHasher,User $user,ManagerRegistry $doctrine, SerializerInterface $serializer, Request $request)
     {
+        $this->denyAccessUnlessGranted('USER_EDIT', $user);
         $jsonContent = $request->getContent();
         $userEdit = $serializer->deserialize($jsonContent, User::class, 'json', [AbstractNormalizer::OBJECT_TO_POPULATE => $user]);
-        
+
         $user->setUsername($userEdit->getUsername())
              ->setEmail($userEdit->getEmail());
-
 
         $plaintextPassword = $userEdit->getPassword();
         $hashedPassword = $passwordHasher->hashPassword(
@@ -158,7 +161,7 @@ class APIUsersController extends AbstractController
         );
         $user->setPassword($hashedPassword);
         
-        $user->setRoles( $userEdit->getRoles());
+        $user->setRoles($userEdit->getRoles());
 
 
         // $listItemsRemove = $user->getListItems();

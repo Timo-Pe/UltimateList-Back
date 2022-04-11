@@ -113,6 +113,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    public function getBestRole() :string
+    {
+        $bestRole = 'Anonymous';
+        if (in_array('ROLE_ADMIN', $this->roles))
+        {
+            return 'Admin';
+        }
+
+        if (in_array('ROLE_USER', $this->roles))
+        {
+            return 'Util.';
+        }
+        return $bestRole;
+    }
+
     /**
      * @see PasswordAuthenticatedUserInterface
      */
