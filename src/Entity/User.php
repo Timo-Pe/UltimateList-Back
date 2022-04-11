@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
@@ -26,12 +27,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @ORM\Column(type="string", length=180, unique=true)
      * @Groups({"get_platforms_collection", "get_items_collection", "get_list_items_collection", "get_modes_collection", "get_tags_collection", "get_users_collection"})
-
+     * @Assert\NotNull
      */
     private $username;
 
     /**
-     * @ORM\Column(type="json")
+     * @ORM\Column(type="json")     
+     * @Groups("get_users_collection")
      */
     private $roles = [];
 
@@ -39,17 +41,20 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string The hashed password
      * @ORM\Column(type="string")
      * @Groups("get_users_collection")
+     * @Assert\NotNull
      */
     private $password;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups("get_users_collection")
+     * @Assert\NotNull
      */
     private $email;
 
     /**
      * @ORM\OneToMany(targetEntity=ListItem::class, mappedBy="user", cascade={"persist"})
+     * @Groups("get_users_collection")
      * 
      */
     private $listItems;
@@ -101,7 +106,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return array_unique($roles);
     }
 
-    public function setRoles(string $roles): self
+    public function setRoles(array $roles): self
     {
         $this->roles = $roles;
 
