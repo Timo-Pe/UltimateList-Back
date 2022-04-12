@@ -351,7 +351,7 @@ class AppFixtures extends Fixture
                 "item_status" => 0, 
                 "item_comment" => null, 
                 "item_rating" => null,
-                "modeIndex" => 0,
+                "modeIndex" => 1,
                 "itemIndex" => 6,
                 "user" => 1
             ]
