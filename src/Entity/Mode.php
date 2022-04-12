@@ -47,6 +47,7 @@ class Mode
 
     /**
      * @ORM\Column(type="string", length=64, nullable=true)
+     * @Groups({"get_platforms_collection", "get_items_collection", "get_list_items_collection", "get_modes_collection", "get_tags_collection"})
      */
     private $slug;
 
