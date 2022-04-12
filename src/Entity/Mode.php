@@ -45,6 +45,11 @@ class Mode
      */
     private $platforms;
 
+    /**
+     * @ORM\Column(type="string", length=64, nullable=true)
+     */
+    private $slug;
+
     public function __construct()
     {
         $this->items = new ArrayCollection();
@@ -149,6 +154,18 @@ class Mode
     public function removePlatform(Platform $platform): self
     {
         $this->platforms->removeElement($platform);
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(?string $slug): self
+    {
+        $this->slug = $slug;
 
         return $this;
     }

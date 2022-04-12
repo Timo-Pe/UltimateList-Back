@@ -2,18 +2,20 @@
 
 namespace App\Controller\API;
 
+use App\Entity\Item;
 use App\Entity\ListItem;
 use App\Repository\ListItemRepository;
 use DateTimeImmutable;
 use Doctrine\Persistence\ManagerRegistry;
+use JMS\Serializer\SerializerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\Exception\NotEncodableValueException;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
+use Symfony\Component\Serializer\SerializerInterface as SerializerSerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
-use Symfony\Component\Serializer\SerializerInterface;
 
 class APIListItemsController extends AbstractController
 {
@@ -59,7 +61,7 @@ class APIListItemsController extends AbstractController
     public function createListItem(Request $request, SerializerInterface $serializer, ManagerRegistry $doctrine, ValidatorInterface $validator): Response
     {
         $jsonContent = $request->getContent();
-
+    
         try {
             $listItem = $serializer->deserialize($jsonContent, ListItem::class, 'json');
         } catch (NotEncodableValueException $e) {
@@ -88,18 +90,19 @@ class APIListItemsController extends AbstractController
                     ->setMode($listItem->getMode())
                     ->setUser($listItem->getUser());
 
+        // mettre en relation Many to One
         $items = $listItem->getItems();
         foreach ($items as $item) {
             $newListItem->addItem($item);
         }
-
+        
         $entityManager = $doctrine->getManager();
         $entityManager->persist($newListItem);
         $entityManager->flush();
 
         return $this->json(
             // Les données à sérialiser (à convertir en JSON)
-            $listItem,
+            $newListItem,
             // Le status code
             Response::HTTP_CREATED,
             // Les en-têtes de réponse à ajouter (aucune)
@@ -135,7 +138,7 @@ class APIListItemsController extends AbstractController
      * Modifie les infos/préférences d'un item utilisateur
      * Besoin Front : quanbd l'utilisateur veut ajouter/modifier une info/pref (ex : commentaire ou vu/en cours)
      */
-    public function editListItem(ListItem $listItem, ManagerRegistry $doctrine, SerializerInterface $serializer, Request $request)
+    public function editListItem(ListItem $listItem, ManagerRegistry $doctrine, SerializerSerializerInterface $serializer, Request $request)
     {
         $jsonContent = $request->getContent();
         $listItemEdit = $serializer->deserialize($jsonContent, ListItem::class, 'json', [AbstractNormalizer::OBJECT_TO_POPULATE => $listItem]);

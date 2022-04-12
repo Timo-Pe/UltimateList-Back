@@ -26,7 +26,8 @@ class AppFixtures extends Fixture
         // hydratation of the object
         foreach($tabMode as $modeName){
             $mode = new Mode();
-            $mode->setName($modeName);
+            $mode->setName($modeName["name"]);
+            $mode->setSlug($modeName["slug"]);
             $modeList[] = $mode;
             $manager->persist($mode);
         } 
@@ -131,8 +132,14 @@ class AppFixtures extends Fixture
     {
         $tabMode = 
         [
-            "podcasts",
-            "jeuxvideo",
+            [
+                "name" => "Podcasts",
+                "slug" => "podcasts"
+            ],
+            [
+                "name" => "Jeux Vidéo",
+                "slug" => "jeuxvideo"
+            ],
         ];
 
         return $tabMode;
@@ -161,7 +168,8 @@ class AppFixtures extends Fixture
             "Playstation 4",
             "Switch",
             "Apple Podcasts",
-            "Spotify"
+            "Spotify",
+            "Playstation 2"
         ];
 
         return $tabPlatform;
@@ -236,10 +244,52 @@ class AppFixtures extends Fixture
                 "host" => null,
                 "developer" => "Elie, Justine, Abdel, Bryan, Fabien",
                 "editor" => "O'Clock",
-                "picture" => "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSDR5jrcS-OvSUirhrmPccnzXMY7gvqd4RIBA&usqp=CAU",
+                "picture" => "https://zupimages.net/viewer.php?id=22/15/ptqj.png",
                 "modeIndex" => 1,
                 "platformIndex" => [1],
                 "tagIndex" => [4]
+            ],
+            [
+                "name" => "Grand Theft Auto V", 
+                "description" => "Jeu d'action-aventure en monde ouvert, Grand Theft Auto (GTA) V sur PlayStation 4 vous place dans la peau de trois personnages inédits : Michael, Trevor et Franklin. Ces derniers ont élu domicile à Los Santos, ville de la région de San Andreas. Braquages et missions font partie du quotidien du joueur qui pourra également cohabiter avec 29 autres utilisateurs dans cet univers persistant. Cette version permet en outre de jouer en vue FPS tout au long de l'aventure.", 
+                "release_date" => new DateTime('2013-09-17'),
+                "productor" => null,
+                "autor" => null,
+                "host" => null,
+                "developer" => "Rockstar North",
+                "editor" => "Rockstar Games",
+                "picture" => "https://image.jeuxvideo.com/medias-sm/163129/1631287693-8700-jaquette-avant.jpg",
+                "modeIndex" => 1,
+                "platformIndex" => [0,1,2],
+                "tagIndex" => [0,1,2,4]
+            ],
+            [
+                "name" => "Kingdom Hearts", 
+                "description" => "Kingdom Hearts débute sur l'Île du Destin où Sora, Riku et Kairi habitent. Les trois amis veulent quitter l'île pour explorer de nouveaux mondes et ont préparé un radeau à cet effet. Un soir, l'île est attaquée par d'obscures créatures, les Sans-cœur.", 
+                "release_date" => new DateTime('2002-01-01'),
+                "productor" => null,
+                "autor" => null,
+                "host" => null,
+                "developer" => "Tetsuya Nomura",
+                "editor" => "SQUARE ENIX",
+                "picture" => "https://upload.wikimedia.org/wikipedia/fr/thumb/e/ed/Kingdom_Hearts_Logo.png/260px-Kingdom_Hearts_Logo.png",
+                "modeIndex" => 1,
+                "platformIndex" => [6],
+                "tagIndex" => [1, 2]
+            ],
+            [
+                "name" => "Oyez Oh Yeah", 
+                "description" => "Oyez Oh Yeah est un podcast d’Histoire comme on n’en avait jamais entendu ! Entre apprentissage et humour, Manon Bril et Alex Ramirès revisitent la discipline en recevant à chaque épisode un ou une spécialiste qui répond à toutes leurs questions.", 
+                "release_date" => new DateTime('2021-01-01'),
+                "productor" => "Anaïs Carayon",
+                "autor" => "Vincent Girard",
+                "host" => "Manon Bril et Alex Ramires",
+                "developer" => null,
+                "editor" => null,
+                "picture" => "https://upload.wikimedia.org/wikipedia/fr/thumb/e/ed/Kingdom_Hearts_Logo.png/260px-Kingdom_Hearts_Logo.png",
+                "modeIndex" => 0,
+                "platformIndex" => [5],
+                "tagIndex" => [0, 3]
             ]
         ];
 
@@ -275,6 +325,15 @@ class AppFixtures extends Fixture
                 "item_rating" => 10,
                 "modeIndex" => 1,
                 "itemIndex" => 4,
+                "user" => 1
+            ],
+            [
+                "item_added_at" => new DateTimeImmutable('NOW'),
+                "item_status" => 0, 
+                "item_comment" => null, 
+                "item_rating" => null,
+                "modeIndex" => 0,
+                "itemIndex" => 6,
                 "user" => 1
             ]
         ];
