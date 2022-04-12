@@ -38,7 +38,8 @@ class AppFixtures extends Fixture
         // hydratation of the object
         foreach($tabTag as $tagName){
             $tag = new Tag();
-            $tag->setName($tagName);
+            $tag->setName($tagName["name"]);
+            $tag->setColor($tagName["color"]);
             $tagList[] = $tag;
             $manager->persist($tag);
         } 
@@ -134,11 +135,13 @@ class AppFixtures extends Fixture
         [
             [
                 "name" => "Podcasts",
-                "slug" => "podcasts"
+                "slug" => "podcasts",
+                "color" => "#FFA47A"
             ],
             [
                 "name" => "Jeux Vidéo",
-                "slug" => "jeuxvideo"
+                "slug" => "jeuxvideo",
+                "color" => "#7068F4"
             ],
         ];
 
@@ -149,11 +152,26 @@ class AppFixtures extends Fixture
     {
         $tabTag = 
         [
-            "Histoire",
-            "Action",
-            "Aventure",
-            "Societe",
-            "Gestion"
+            [
+                "name" => "Histoire",
+                "color" => "#4A412A"
+            ],
+            [
+                "name" => "Action",
+                "color" => "#C92FAA"
+            ],
+            [
+                "name" => "Aventure",
+                "color" => "#FCFF00"
+            ],
+            [
+                "name" => "Societe",
+                "color" => "#00FF18"
+            ],
+            [
+                "name" => "Gestion",
+                "color" => "#FF9C00"
+            ]
         ];
 
         return $tabTag;

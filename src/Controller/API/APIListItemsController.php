@@ -52,7 +52,6 @@ class APIListItemsController extends AbstractController
         }
         return $this->json($listItem, Response::HTTP_OK, [], ['groups' => 'get_list_items_collection']);
     }
-
     /**
      * @Route("/api/list_items/create", name="app_api_create_listItems", methods="POST")
      * Créer les infos de liste sur l'item de l'utilisateur
@@ -95,7 +94,7 @@ class APIListItemsController extends AbstractController
         foreach ($items as $item) {
             $newListItem->addItem($item);
         }
-        
+
         $entityManager = $doctrine->getManager();
         $entityManager->persist($newListItem);
         $entityManager->flush();

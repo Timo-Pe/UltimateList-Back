@@ -51,6 +51,11 @@ class Mode
      */
     private $slug;
 
+    /**
+     * @ORM\Column(type="string", length=64, nullable=true)
+     */
+    private $color;
+
     public function __construct()
     {
         $this->items = new ArrayCollection();
@@ -167,6 +172,18 @@ class Mode
     public function setSlug(?string $slug): self
     {
         $this->slug = $slug;
+
+        return $this;
+    }
+
+    public function getColor(): ?string
+    {
+        return $this->color;
+    }
+
+    public function setColor(?string $color): self
+    {
+        $this->color = $color;
 
         return $this;
     }

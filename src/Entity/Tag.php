@@ -33,6 +33,11 @@ class Tag
      */
     private $items;
 
+    /**
+     * @ORM\Column(type="string", length=64, options={"default" : "#7068F4"})
+     */
+    private $color;
+
     public function __construct()
     {
         $this->items = new ArrayCollection();
@@ -78,6 +83,18 @@ class Tag
         if ($this->items->removeElement($item)) {
             $item->removeTag($this);
         }
+
+        return $this;
+    }
+
+    public function getColor(): ?string
+    {
+        return $this->color;
+    }
+
+    public function setColor(string $color): self
+    {
+        $this->color = $color;
 
         return $this;
     }
