@@ -28,6 +28,7 @@ class AppFixtures extends Fixture
             $mode = new Mode();
             $mode->setName($modeName["name"]);
             $mode->setSlug($modeName["slug"]);
+            $mode->setColor($modeName["color"]);
             $modeList[] = $mode;
             $manager->persist($mode);
         } 
