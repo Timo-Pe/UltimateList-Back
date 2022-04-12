@@ -13,6 +13,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasher;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Serializer\Exception\NotEncodableValueException;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 
@@ -23,11 +24,14 @@ class APIUsersController extends AbstractController
      * Affiche la liste des users
      * Besoin Front : (future version) recherche des users
      */
-    public function userList(UserRepository $usersList): Response
+    public function userList(UserRepository $usersList, SerializerInterface $serializer): Response
     {
         $usersCollection = $usersList->findAll();
-        //$user = $serializer->serialize($usersCollection, 'json');
-       
+
+
+        
+        //$user = $serializer->serialize($usersCollection,'json', ['groups' => 'get_users_collection']);
+
         return $this->json(
             // Les données à sérialiser (à convertir en JSON)
             $usersCollection,

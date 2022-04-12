@@ -5,6 +5,7 @@ namespace App\Controller\BackOffice;
 use App\Entity\Tag;
 use App\Form\TagType;
 use App\Repository\TagRepository;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -58,13 +59,23 @@ class TagController extends AbstractController
     /**
      * @Route("/{id}/edit", name="app_tag_edit", methods={"GET", "POST"})
      */
-    public function edit(Request $request, Tag $tag, TagRepository $tagRepository): Response
+    public function edit(Request $request, Tag $tag, TagRepository $tagRepository, ManagerRegistry $doctrine): Response
     {
         $form = $this->createForm(TagType::class, $tag);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $tagRepository->add($tag);
+
+            $tagForm = $form->getData();
+            $entityManager = $doctrine->getManager();
+           
+            // valider les données
+
+            // traiter le formulaire
+            $entityManager->persist($tagForm);
+            $entityManager->flush();
+            $this->addFlash('success', 'Votre tag a bien été modifié');
             return $this->redirectToRoute('app_tag_index', [], Response::HTTP_SEE_OTHER);
         }
 
