@@ -53,6 +53,7 @@ class Mode
 
     /**
      * @ORM\Column(type="string", length=64, nullable=true)
+     * @Groups("get_modes_collection")
      */
     private $color;
 
