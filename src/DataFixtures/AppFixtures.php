@@ -93,7 +93,7 @@ class AppFixtures extends Fixture
         $admin->setUsername('admin');
         $admin->setEmail('admin@admin.com');
         $admin->setRoles(['ROLE_ADMIN']);
-        $admin->setPassword('admin');
+        $admin->setPassword('$2y$13$KsCO7uSoma1KkQCetaN78.tg9HLQ9TGPdlusc3K9OoIgxioPOVSUy');
         $userList[] = $admin;
         $manager->persist($admin);
 
@@ -101,7 +101,7 @@ class AppFixtures extends Fixture
         $user->setUsername('user');
         $user->setEmail('user@user.com');
         $user->setRoles(['ROLE_USER']);
-        $user->setPassword('user');
+        $user->setPassword('$2y$13$hAEC.bJQdfPcJbQ6jl24Pub5QYibpM4kvTzgIqp9Me0i4QtYfGOPa');
     
         $userList[] = $user;
         $manager->persist($user);
