@@ -3,24 +3,26 @@
 {% block title %}Tag{% endblock %}
 
 {% block body %}
-    <h1>Tag</h1>
+    <div class="container my-4">
+        <h1>Tag</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ tag.id }}</td>
-            </tr>
-            <tr>
-                <th>Name</th>
-                <td>{{ tag.name }}</td>
-            </tr>
-        </tbody>
-    </table>
+        <table class="table">
+            <tbody>
+                <tr>
+                    <th>Id</th>
+                    <td>{{ tag.id }}</td>
+                </tr>
+                <tr>
+                    <th>Nom</th>
+                    <td>{{ tag.name }}</td>
+                </tr>
+            </tbody>
+        </table>
 
-    <a class="btn btn-info" href="{{ path('app_tag_index') }}">back to list</a>
+        <a class="btn btn-success" href="{{ path('app_tag_index') }}">Retour à la liste</a>
 
-    <a class="btn btn-warning" href="{{ path('app_tag_edit', {'id': tag.id}) }}">edit</a>
+        <a class="btn btn-warning" href="{{ path('app_tag_edit', {'id': tag.id}) }}">Editer</a>
 
-    {{ include('tag/_delete_form.html.twig') }}
+        {{ include('tag/_delete_form.html.twig') }}
+    </div>
 {% endblock %}

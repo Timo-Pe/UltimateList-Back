@@ -3,6 +3,11 @@
 namespace App\Form;
 
 use App\Entity\Item;
+use App\Entity\ListItem;
+use App\Entity\Mode;
+use App\Entity\Platform;
+use App\Entity\Tag;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -21,10 +26,22 @@ class ItemType extends AbstractType
             ->add('developer')
             ->add('editor')
             ->add('image')
-            ->add('mode')
-            ->add('list_items')
-            ->add('platforms')
-            ->add('tags')
+            ->add('mode', EntityType::class, [
+                'class' => Mode::class,
+                'label' => 'Mode'
+            ])
+            ->add('platforms', EntityType::class, [
+                'class' => Platform::class,
+                'label' => 'Plateformes',
+                'multiple' => true,
+                'expanded' => true
+            ])
+            ->add('tags', EntityType::class, [
+                'class' => Tag::class,
+                'label' => 'Tags',
+                'multiple' => true,
+                'expanded' => true
+            ])
         ;
     }
 

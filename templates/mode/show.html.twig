@@ -3,24 +3,26 @@
 {% block title %}Mode{% endblock %}
 
 {% block body %}
-    <h1>Mode</h1>
+    <div class="container my-4">
+        <h1>Mode</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ mode.id }}</td>
-            </tr>
-            <tr>
-                <th>Name</th>
-                <td>{{ mode.name }}</td>
-            </tr>
-        </tbody>
-    </table>
+        <table class="table">
+            <tbody>
+                <tr>
+                    <th>Id</th>
+                    <td>{{ mode.id }}</td>
+                </tr>
+                <tr>
+                    <th>Nom</th>
+                    <td>{{ mode.name }}</td>
+                </tr>
+            </tbody>
+        </table>
 
-    <a href="{{ path('app_mode_index') }}">back to list</a>
+        <a class="btn btn-success" href="{{ path('app_mode_index') }}">Retour à la liste</a>
 
-    <a href="{{ path('app_mode_edit', {'id': mode.id}) }}">edit</a>
+        <a class="btn btn-warning" href="{{ path('app_mode_edit', {'id': mode.id}) }}">Editer</a>
 
-    {{ include('mode/_delete_form.html.twig') }}
+        {{ include('mode/_delete_form.html.twig') }}
+    </div>
 {% endblock %}
