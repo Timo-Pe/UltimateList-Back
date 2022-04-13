@@ -46,11 +46,25 @@ class APIUsersController extends AbstractController
     }
 
     /**
-     * @Route("/api/users/{id<\d+>}", name="api_users_get_user", methods={"GET"})
+     * @Route("/api/users/{id<\d+>}", name="api_users_get_user_id", methods={"GET"})
      * Afficher les infos d'un utilisateur
      * Besoin Front : afficher le profil utilisateur
      */
-    public function getUser(User $user = null)
+    public function getUserById(User $user = null)
+    {
+        if ($user === null){
+            return $this->json(['error' => 'User non trouvé', Response::HTTP_NOT_FOUND]);
+        }
+
+        return $this->json($user, Response::HTTP_OK, [], ['groups' => 'get_users_collection']);
+    }
+
+    /**
+     * @Route("/api/users/{username}", name="api_users_get_user_username", methods={"GET"})
+     * Afficher les infos d'un utilisateur
+     * Besoin Front : afficher le profil utilisateur
+     */
+    public function getUserByUsername(User $user = null)
     {
         if ($user === null){
             return $this->json(['error' => 'User non trouvé', Response::HTTP_NOT_FOUND]);
