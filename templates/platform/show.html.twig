@@ -3,24 +3,42 @@
 {% block title %}Platform{% endblock %}
 
 {% block body %}
-    <h1>Platform</h1>
+    <div class="container my-4">
+        <h1>Platform</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ platform.id }}</td>
-            </tr>
-            <tr>
-                <th>Name</th>
-                <td>{{ platform.name }}</td>
-            </tr>
-        </tbody>
-    </table>
+        <table class="table">
+            <tbody>
+                <tr>
+                    <th>Id</th>
+                    <td>{{ platform.id }}</td>
+                </tr>
+                <tr>
+                    <th>Nom</th>
+                    <td>{{ platform.name }}</td>
+                </tr>
+                <tr>
+                    <th>Modes</th>
+                    <td>
+                        {% for mode in platform.modes %}
+                            {{ mode }}
+                        {% endfor %}
+                    </td>
+                </tr>
+                <tr>
+                    <th>Items</th>
+                    <td>
+                    {% for item in platform.items %}
+                        {{ item }} /              
+                    {% endfor %}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
 
-    <a href="{{ path('app_platform_index') }}">back to list</a>
+        <a href="{{ path('app_platform_index') }}">back to list</a>
 
-    <a href="{{ path('app_platform_edit', {'id': platform.id}) }}">edit</a>
+        <a href="{{ path('app_platform_edit', {'id': platform.id}) }}">edit</a>
 
-    {{ include('platform/_delete_form.html.twig') }}
+        {{ include('platform/_delete_form.html.twig') }}
+    </div>
 {% endblock %}

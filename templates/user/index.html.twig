@@ -1,10 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}User index{% endblock %}
+{% block title %}Users{% endblock %}
 
 {% block body %}
     <div class="container my-4">
-        <h1>User index</h1>
+        <h1>Liste des Users</h1>
 
         <table class="table">
             <thead>
@@ -12,9 +12,8 @@
                     <th>Id</th>
                     <th>Username</th>
                     <th>Roles</th>
-                    <th>Password</th>
                     <th>Email</th>
-                    <th>actions</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -23,21 +22,20 @@
                     <td  class = "align-middle">{{ user.id }}</td>
                     <td  class = "align-middle">{{ user.username }}</td>
                     <td  class = "align-middle">{{ user.roles ? user.roles|json_encode : '' }}</td>
-                    <td  class = "align-middle">{{ user.password }}</td>
                     <td  class = "align-middle">{{ user.email }}</td>
                     <td  class = "align-middle">
-                        <a class="btn btn-primary"href="{{ path('app_user_show', {'id': user.id}) }}">show</a>
-                        <a class="btn btn-warning"href="{{ path('app_user_edit', {'id': user.id}) }}">edit</a>
+                        <a class="btn btn-primary" href="{{ path('app_user_show', {'id': user.id}) }}">Voir</a>
+                        <a class="btn btn-warning" href="{{ path('app_user_edit', {'id': user.id}) }}">Editer</a>
                     </td>
                 </tr>
             {% else %}
                 <tr>
-                    <td colspan="6">no records found</td>
+                    <td colspan="6">Pas de Users trouvés</td>
                 </tr>
             {% endfor %}
             </tbody>
         </table>
 
-        <a class="btn btn-success" href="{{ path('app_user_new') }}">Create new</a>
+        <a class="btn btn-success" href="{{ path('app_user_new') }}">Créer un nouveau User</a>
     </div>
 {% endblock %}
