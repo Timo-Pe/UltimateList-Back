@@ -65,15 +65,15 @@ class TagController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $tagRepository->add($tag);
+            //$tagRepository->add($tag);
 
-            $tagForm = $form->getData();
+            //$tagForm = $form->getData();
             $entityManager = $doctrine->getManager();
            
             // valider les données
 
             // traiter le formulaire
-            $entityManager->persist($tagForm);
+            //$entityManager->persist($tagForm);
             $entityManager->flush();
             $this->addFlash('success', 'Votre tag a bien été modifié');
             return $this->redirectToRoute('app_tag_index', [], Response::HTTP_SEE_OTHER);

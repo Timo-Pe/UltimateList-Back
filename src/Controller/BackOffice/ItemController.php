@@ -5,6 +5,7 @@ namespace App\Controller\BackOffice;
 use App\Entity\Item;
 use App\Form\ItemType;
 use App\Repository\ItemRepository;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -58,13 +59,15 @@ class ItemController extends AbstractController
     /**
      * @Route("/{id}/edit", name="app_item_edit", methods={"GET", "POST"})
      */
-    public function edit(Request $request, Item $item, ItemRepository $itemRepository): Response
+    public function edit(Request $request, Item $item, ItemRepository $itemRepository, ManagerRegistry $doctrine): Response
     {
         $form = $this->createForm(ItemType::class, $item);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager = $doctrine->getManager();
             $itemRepository->add($item);
+            $entityManager->flush();
             return $this->redirectToRoute('app_item_index', [], Response::HTTP_SEE_OTHER);
         }
 

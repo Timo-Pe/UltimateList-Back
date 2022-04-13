@@ -16,12 +16,6 @@ class TagType extends AbstractType
     {
         $builder
             ->add('name', TextType::class)
-            ->add('items', EntityType::class, [
-                'class' => Item::class,
-                'label' => 'Item',
-                'multiple' => true,
-                'expanded' => true
-            ])
         ;
     }
 
