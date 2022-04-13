@@ -249,7 +249,7 @@ class AppFixtures extends Fixture
                 "host" => "Jean Claude Ameisen",
                 "developer" => null,
                 "editor" => null,
-                "picture" => "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSDR5jrcS-OvSUirhrmPccnzXMY7gvqd4RIBA&usqp=CAU",
+                "picture" => "https://i.gyazo.com/afc1f79710f05003cb5ddb9b1d6f8c5c.png",
                 "modeIndex" => 0,
                 "platformIndex" => [4,5],
                 "tagIndex" => [0,3]
@@ -263,7 +263,7 @@ class AppFixtures extends Fixture
                 "host" => null,
                 "developer" => "Elie, Justine, Abdel, Bryan, Fabien",
                 "editor" => "O'Clock",
-                "picture" => "https://zupimages.net/viewer.php?id=22/15/ptqj.png",
+                "picture" => "https://i.gyazo.com/1be94abd64e834fae9e74a9f4ba5edb0.png",
                 "modeIndex" => 1,
                 "platformIndex" => [1],
                 "tagIndex" => [4]
@@ -291,7 +291,7 @@ class AppFixtures extends Fixture
                 "host" => null,
                 "developer" => "Tetsuya Nomura",
                 "editor" => "SQUARE ENIX",
-                "picture" => "https://upload.wikimedia.org/wikipedia/fr/thumb/e/ed/Kingdom_Hearts_Logo.png/260px-Kingdom_Hearts_Logo.png",
+                "picture" => "https://i.gyazo.com/0a2026070ee028e317dd283e080db8c2.png",
                 "modeIndex" => 1,
                 "platformIndex" => [6],
                 "tagIndex" => [1, 2]
@@ -305,10 +305,24 @@ class AppFixtures extends Fixture
                 "host" => "Manon Bril et Alex Ramires",
                 "developer" => null,
                 "editor" => null,
-                "picture" => "https://upload.wikimedia.org/wikipedia/fr/thumb/e/ed/Kingdom_Hearts_Logo.png/260px-Kingdom_Hearts_Logo.png",
+                "picture" => "https://i.gyazo.com/7605d9648d22094499f0f5ece24ffecd.png",
                 "modeIndex" => 0,
                 "platformIndex" => [5],
                 "tagIndex" => [0, 3]
+            ],
+            [
+                "name" => "FloodCast", 
+                "description" => "Floodcast, c'est le podcast présenté par Florent Bernard avec la complicité d'Adrien Ménielle dans lequel ils invitent des copains pour discuter de pleins de choses. Ce qui se passe dans chaque émission n'engage que nous et le président des Etats-Unis.", 
+                "release_date" => new DateTime('2015-01-01'),
+                "productor" => "Florent Bernard",
+                "autor" => "Florent Bernard",
+                "host" => "Florent Bernard et Adrien Ménielle",
+                "developer" => null,
+                "editor" => null,
+                "picture" => "https://i.gyazo.com/8eb3c1e367f71e9a9a728c3050758cdb.png",
+                "modeIndex" => 0,
+                "platformIndex" => [4, 5],
+                "tagIndex" => [3]
             ]
         ];
 

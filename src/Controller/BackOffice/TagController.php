@@ -76,6 +76,7 @@ class TagController extends AbstractController
             $entityManager->persist($tagForm);
             $entityManager->flush();
             $this->addFlash('success', 'Votre tag a bien été modifié');
+            
             return $this->redirectToRoute('app_tag_index', [], Response::HTTP_SEE_OTHER);
         }
 
