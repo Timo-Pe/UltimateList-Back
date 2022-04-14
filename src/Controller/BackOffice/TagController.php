@@ -5,6 +5,8 @@ namespace App\Controller\BackOffice;
 use App\Entity\Tag;
 use App\Form\TagType;
 use App\Repository\TagRepository;
+use App\Repository\UserRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -29,14 +31,20 @@ class TagController extends AbstractController
     /**
      * @Route("/new", name="app_tag_new", methods={"GET", "POST"})
      */
-    public function new(Request $request, TagRepository $tagRepository): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, TagRepository $tagRepository): Response
     {
         $tag = new Tag();
         $form = $this->createForm(TagType::class, $tag);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+           
             $tagRepository->add($tag);
+            
+            $color = $tag->getColor();
+            $tag->setColor($color);
+            $entityManager->flush();
+            $this->addFlash('success', 'Le tag a bien été créé');
             return $this->redirectToRoute('app_tag_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -75,7 +83,7 @@ class TagController extends AbstractController
             // traiter le formulaire
             //$entityManager->persist($tagForm);
             $entityManager->flush();
-            $this->addFlash('success', 'Votre tag a bien été modifié');
+            $this->addFlash('success', 'Le tag a bien été modifié');
             
             return $this->redirectToRoute('app_tag_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -93,6 +101,7 @@ class TagController extends AbstractController
     {
         if ($this->isCsrfTokenValid('delete'.$tag->getId(), $request->request->get('_token'))) {
             $tagRepository->remove($tag);
+            $this->addFlash('success', 'Le tag a bien été supprimé');
         }
 
         return $this->redirectToRoute('app_tag_index', [], Response::HTTP_SEE_OTHER);

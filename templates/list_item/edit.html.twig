@@ -3,11 +3,13 @@
 {% block title %}Edit ListItem{% endblock %}
 
 {% block body %}
-    <h1>Edit ListItem</h1>
+<div class="container my-4">
+    <h1>Editer le ListItem {% for item in list_item.items %} {{ item }} {% endfor %} </h1>
 
-    {{ include('list_item/_form.html.twig', {'button_label': 'Update'}) }}
+    {{ include('list_item/_form.html.twig', {'button_label': 'Sauvegarder'}) }}
 
-    <a href="{{ path('app_list_item_index') }}">back to list</a>
+    <a class="btn btn-success" href="{{ path('app_list_item_index') }}">Retour à la liste</a>
 
     {{ include('list_item/_delete_form.html.twig') }}
+</div>
 {% endblock %}
