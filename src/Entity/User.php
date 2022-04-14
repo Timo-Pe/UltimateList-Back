@@ -14,8 +14,16 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
- * @UniqueEntity("username")
- * @UniqueEntity("email")
+ * @UniqueEntity(
+ *      fields={"username"},
+ *      groups={"registration"},
+ *      message="Ce nom d'utilisateur est déjà utilisé"
+ * )
+ * @UniqueEntity(
+ *      fields={"email"},
+ *      groups={"registration"},
+ *      message="Cet email est déjà utilisé"
+ * )
  */
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -30,7 +38,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @ORM\Column(type="string", length=180, unique=true)
      * @Groups({"get_platforms_collection", "get_items_collection", "get_list_items_collection", "get_modes_collection", "get_tags_collection", "get_users_collection"})
-     * @Assert\NotNull
+     * @Assert\NotBlank (
+     *      groups={"registration"},
+     *      message = "Vous devez renseigner un nom d'utilisateur"
+     * )
+     * @Assert\Length(
+     *      min = 5,
+     *      minMessage = "Votre nom d'utilisateur doit contenir au moins {{ limit }} caractères",
+     * )
      */
     private $username;
 
@@ -43,15 +58,40 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
+     * @Assert\Regex(
+     *     groups={"api_patch"},
+     *     pattern="/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/",
+     *     match=true,
+     *     message="Le mot de passe doit contenir au minimum 8 caractères, une majuscule, un chiffre et un caractère spécial"
+     * )
      * @Groups("get_users_collection")
-     * @Assert\NotNull
      */
     private $password;
 
     /**
+     * @Assert\NotBlank (
+     *      groups={"registration"},
+     *      message = "Vous devez renseigner un mot de passe"
+     * )
+     * @Assert\Regex(
+     *     groups={"registration"},
+     *     pattern="/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/",
+     *     match=true,
+     *     message="Le mot de passe doit contenir au minimum 8 caractères, une majuscule, un chiffre et un caractère spécial"
+     * )
+     */
+    private $plainPassword;
+
+
+    /**
      * @ORM\Column(type="string", length=255)
      * @Groups("get_users_collection")
-     * @Assert\NotNull
+     * @Assert\NotBlank (
+     *      message = "Vous devez renseigner un email"
+     * )
+     * @Assert\Email(
+     *     message = "La valeur '{{ value }}' n'est pas un email valide."
+     * )
      */
     private $email;
 
@@ -204,6 +244,26 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $listItem->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * Get pattern="/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/",
+     */ 
+    public function getPlainPassword()
+    {
+        return $this->plainPassword;
+    }
+
+    /**
+     * Set pattern="/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/",
+     *
+     * @return  self
+     */ 
+    public function setPlainPassword($plainPassword)
+    {
+        $this->plainPassword = $plainPassword;
 
         return $this;
     }
