@@ -44,6 +44,9 @@ class UserController extends AbstractController
                 $hashedPassword = $userPasswordHasher->hashPassword($user, $form->get('password')->getData());
                 // On écrase le mot de passe en clair par le mot de passe haché
                 $user->setPassword($hashedPassword);
+                $roles = $user->getRoles();
+                $user->setRoles($roles);   
+
             }
             $entityManager->flush();
             return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);

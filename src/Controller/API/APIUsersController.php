@@ -30,8 +30,6 @@ class APIUsersController extends AbstractController
     {
         $usersCollection = $usersList->findAll();
 
-
-        
         //$user = $serializer->serialize($usersCollection,'json', ['groups' => 'get_users_collection']);
 
         return $this->json(
