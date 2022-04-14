@@ -37,6 +37,7 @@ class PlatformController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $platformRepository->add($platform);
+            $this->addFlash('success', 'La plateforme a bien été créée');
             return $this->redirectToRoute('app_platform_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -67,7 +68,7 @@ class PlatformController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             
             $platformRepository->add($platform);
-            
+            $this->addFlash('success', 'La plateforme a bien été modifiée');
             return $this->redirectToRoute('app_platform_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -84,6 +85,7 @@ class PlatformController extends AbstractController
     {
         if ($this->isCsrfTokenValid('delete'.$platform->getId(), $request->request->get('_token'))) {
             $platformRepository->remove($platform);
+            $this->addFlash('success', 'La plateforme a bien été supprimée');
         }
 
         return $this->redirectToRoute('app_platform_index', [], Response::HTTP_SEE_OTHER);

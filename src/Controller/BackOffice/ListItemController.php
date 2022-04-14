@@ -42,6 +42,7 @@ class ListItemController extends AbstractController
             $listItem->setItemAddedAt(new DateTimeImmutable("NOW"));
 
             $listItemRepository->add($listItem);
+            $this->addFlash('success', 'Le listItem a bien été créé');
             return $this->redirectToRoute('app_list_item_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -71,6 +72,7 @@ class ListItemController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $listItemRepository->add($listItem);
+            $this->addFlash('success', 'Le listItem a bien été modifié');
             return $this->redirectToRoute('app_list_item_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -87,6 +89,7 @@ class ListItemController extends AbstractController
     {
         if ($this->isCsrfTokenValid('delete'.$listItem->getId(), $request->request->get('_token'))) {
             $listItemRepository->remove($listItem);
+            $this->addFlash('success', 'Le listItem a bien été supprimé');
         }
 
         return $this->redirectToRoute('app_list_item_index', [], Response::HTTP_SEE_OTHER);
