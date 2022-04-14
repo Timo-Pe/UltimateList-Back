@@ -4,9 +4,11 @@ namespace App\Controller\BackOffice;
 
 use App\Entity\ListItem;
 use App\Form\ListItemType;
+use App\Repository\ItemRepository;
 use App\Repository\ListItemRepository;
 use DateTimeImmutable;
 use Doctrine\DBAL\Types\DateImmutableType;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -30,7 +32,7 @@ class ListItemController extends AbstractController
     /**
      * @Route("/new", name="app_list_item_new", methods={"GET", "POST"})
      */
-    public function new(Request $request, ListItemRepository $listItemRepository): Response
+    public function new(Request $request, ListItemRepository $listItemRepository, ManagerRegistry $doctrine, ItemRepository $itemRepository): Response
     {
         $listItem = new ListItem();
         $form = $this->createForm(ListItemType::class, $listItem);
@@ -38,6 +40,7 @@ class ListItemController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $listItem->setItemAddedAt(new DateTimeImmutable("NOW"));
+
             $listItemRepository->add($listItem);
             return $this->redirectToRoute('app_list_item_index', [], Response::HTTP_SEE_OTHER);
         }

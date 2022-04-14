@@ -7,6 +7,7 @@ use App\Entity\ListItem;
 use App\Entity\Mode;
 use App\Entity\Platform;
 use App\Entity\Tag;
+use App\Repository\ListItemRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;

@@ -173,5 +173,4 @@ class ListItem
 
         return $this;
     }
-
 }
