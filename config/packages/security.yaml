@@ -55,7 +55,7 @@ security:
         - { path: ^/api, roles: ROLE_USER }
         - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/backoffice/login, roles: PUBLIC_ACCESS }
-        - { path: ^/backoffice, roles: ROLE_ADMIN }
+        # - { path: ^/backoffice, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
     role_hierarchy:
             ROLE_ADMIN: ROLE_USER
