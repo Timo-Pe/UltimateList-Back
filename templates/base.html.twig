@@ -26,25 +26,30 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarText">
                     <ul class="navbar-nav mr-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('app_user_index') }}">Users</a>
-        
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('app_item_index') }}">Items</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('app_list_item_index') }}">ListItems</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('app_mode_index') }}">Modes</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('app_tag_index') }}">Tags</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('app_platform_index') }}">Plateformes</a>
-                    </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('app_user_index') }}">Users</a>
+            
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('app_item_index') }}">Items</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('app_list_item_index') }}">ListItems</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('app_mode_index') }}">Modes</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('app_tag_index') }}">Tags</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('app_platform_index') }}">Plateformes</a>
+                        </li>
+                        {% if app.user %}
+                        <li>
+                            <a class="btn btn-danger" href="{{ path('app_logout') }}">Déconnexion</a>
+                        </li>
+                        {% endif %}
                     </ul>
                 </div>
             </div>

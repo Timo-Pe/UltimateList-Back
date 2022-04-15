@@ -32,6 +32,12 @@ security:
             jwt: ~
         main:
             lazy: true
+            custom_authenticator: App\Security\LoginFormAuthenticator
+            logout:
+                path: app_logout
+                # where to redirect after logout
+                target: app_login
+
          
             
 
@@ -46,8 +52,10 @@ security:
     access_control:
         - { path: ^/api/login, roles: PUBLIC_ACCESS }
         - { path: ^/api/users, roles: PUBLIC_ACCESS }
-        - { path: ^/api, roles: PUBLIC_ACCESS }
-        # - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/api, roles: ROLE_USER }
+        - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/backoffice/login, roles: PUBLIC_ACCESS }
+        - { path: ^/backoffice, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
     role_hierarchy:
             ROLE_ADMIN: ROLE_USER
