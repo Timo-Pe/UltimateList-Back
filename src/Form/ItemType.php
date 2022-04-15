@@ -7,8 +7,11 @@ use App\Entity\ListItem;
 use App\Entity\Mode;
 use App\Entity\Platform;
 use App\Entity\Tag;
+use App\Repository\ListItemRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -17,14 +20,49 @@ class ItemType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('name')
-            ->add('description')
-            ->add('release_date')
-            ->add('productor')
-            ->add('autor')
-            ->add('host')
-            ->add('developer')
-            ->add('editor')
+            ->add('name', TextType::class, [
+                'label' => 'Nom'
+            ])
+            ->add('description', TextType::class)
+            ->add('release_date', DateType::class, [
+                'label' => 'Sortie',
+                'widget' => 'single_text'
+            ])
+            ->add('productor', TextType::class, [
+                'label' => 'Producteur',
+                'required' => false,
+                'attr' => [
+                    'placeholder' => 'Ne pas remplir en cas de mode Jeux Vidéo'
+                ]
+            ])
+            ->add('autor', TextType::class, [
+                'label' => 'Auteur',
+                'required' => false,
+                'attr' => [
+                    'placeholder' => 'Ne pas remplir en cas de mode Jeux Vidéo'
+                ]
+            ])
+            ->add('host', TextType::class, [
+                'label' => 'Animateur',
+                'required' => false,
+                'attr' => [
+                    'placeholder' => 'Ne pas remplir en cas de mode Jeux Vidéo'
+                ]
+            ])
+            ->add('developer', TextType::class, [
+                'label' => 'Développeur',
+                'required' => false,
+                'attr' => [
+                    'placeholder' => 'Ne pas remplir en cas de mode Podcast'
+                ]
+            ])
+            ->add('editor', TextType::class, [
+                'label' => 'Editeur',
+                'required' => false,
+                'attr' => [
+                    'placeholder' => 'Ne pas remplir en cas de mode Podcast'
+                ]
+            ])
             ->add('image')
             ->add('mode', EntityType::class, [
                 'class' => Mode::class,

@@ -62,6 +62,7 @@ class ListItem
 
     /**
      * @ORM\ManyToOne(targetEntity=Item::class, inversedBy="list_items")
+     * @Groups("get_list_items_collection")
      */
     private $item;
 

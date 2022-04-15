@@ -16,6 +16,25 @@
                     <th>Nom</th>
                     <td>{{ mode.name }}</td>
                 </tr>
+                <tr>
+                    <th>Couleur</th>
+                    <td>{{ mode.color }}</td>
+                </tr>
+                <tr>
+                    <th>Slug</th>
+                    <td>{{ mode.slug }}</td>
+                </tr>
+                <tr>
+                    <th>Plateformes</th>
+                        <td>
+                        {% for platform in mode.platforms %}
+                            {{ platform }}
+                            {% if loop.index < loop.length %}
+                                 , 
+                            {% endif %}
+                        {% endfor %}
+                        </td>
+                </tr>
             </tbody>
         </table>
 

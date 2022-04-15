@@ -36,6 +36,7 @@ class ModeController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $modeRepository->add($mode);
+            $this->addFlash('success', 'Le mode a bien été créé');
             return $this->redirectToRoute('app_mode_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -65,6 +66,7 @@ class ModeController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $modeRepository->add($mode);
+            $this->addFlash('success', 'Le mode a bien été édité');
             return $this->redirectToRoute('app_mode_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -81,6 +83,7 @@ class ModeController extends AbstractController
     {
         if ($this->isCsrfTokenValid('delete'.$mode->getId(), $request->request->get('_token'))) {
             $modeRepository->remove($mode);
+            $this->addFlash('success', 'Le mode a bien été supprimé');
         }
 
         return $this->redirectToRoute('app_mode_index', [], Response::HTTP_SEE_OTHER);

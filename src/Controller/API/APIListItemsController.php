@@ -86,14 +86,11 @@ class APIListItemsController extends AbstractController
                     ->setItemComment(null)
                     ->setItemRating(null)
                     ->setItemStatus(0)
-                    ->setMode($listItem->getMode())
+                    ->setMode($listItem->getItem()->getMode())
                     ->setUser($listItem->getUser());
 
-        // mettre en relation Many to One
-        $items = $listItem->getItems();
-        foreach ($items as $item) {
-            $newListItem->addItem($item);
-        }
+        $newListItem->setItem($listItem->getItem());
+
 
         $entityManager = $doctrine->getManager();
         $entityManager->persist($newListItem);
@@ -142,12 +139,12 @@ class APIListItemsController extends AbstractController
         $jsonContent = $request->getContent();
         $listItemEdit = $serializer->deserialize($jsonContent, ListItem::class, 'json', [AbstractNormalizer::OBJECT_TO_POPULATE => $listItem]);
 
-
+        $listItemEdit->setMode($listItem->getItem()->getMode());
+        dd($listItemEdit);
         $entityManager = $doctrine->getManager();
         $entityManager->persist($listItemEdit);
         $entityManager->flush();
         return $this->json($listItem, Response::HTTP_OK, [], ['groups' => 'get_list_items_collection']);
     }
-
 }
 

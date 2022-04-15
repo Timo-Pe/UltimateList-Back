@@ -5,6 +5,7 @@ namespace App\Controller\BackOffice;
 use App\Entity\Platform;
 use App\Form\PlatformType;
 use App\Repository\PlatformRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -36,6 +37,7 @@ class PlatformController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $platformRepository->add($platform);
+            $this->addFlash('success', 'La plateforme a bien été créée');
             return $this->redirectToRoute('app_platform_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -58,13 +60,15 @@ class PlatformController extends AbstractController
     /**
      * @Route("/{id}/edit", name="app_platform_edit", methods={"GET", "POST"})
      */
-    public function edit(Request $request, Platform $platform, PlatformRepository $platformRepository): Response
+    public function edit(Request $request, EntityManagerInterface $entityManager, Platform $platform, PlatformRepository $platformRepository): Response
     {
         $form = $this->createForm(PlatformType::class, $platform);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            
             $platformRepository->add($platform);
+            $this->addFlash('success', 'La plateforme a bien été modifiée');
             return $this->redirectToRoute('app_platform_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -81,6 +85,7 @@ class PlatformController extends AbstractController
     {
         if ($this->isCsrfTokenValid('delete'.$platform->getId(), $request->request->get('_token'))) {
             $platformRepository->remove($platform);
+            $this->addFlash('success', 'La plateforme a bien été supprimée');
         }
 
         return $this->redirectToRoute('app_platform_index', [], Response::HTTP_SEE_OTHER);

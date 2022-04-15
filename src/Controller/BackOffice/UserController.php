@@ -44,8 +44,12 @@ class UserController extends AbstractController
                 $hashedPassword = $userPasswordHasher->hashPassword($user, $form->get('password')->getData());
                 // On écrase le mot de passe en clair par le mot de passe haché
                 $user->setPassword($hashedPassword);
+                $roles = $user->getRoles();
+                $user->setRoles($roles);   
+
             }
             $entityManager->flush();
+            $this->addFlash('success', 'Le user a bien été créé');
             return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -84,6 +88,7 @@ class UserController extends AbstractController
             }
             
             $entityManager->flush();
+            $this->addFlash('success', 'Le user a bien été modifié');
             return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -100,6 +105,8 @@ class UserController extends AbstractController
     {
         if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
             $userRepository->remove($user);
+
+            $this->addFlash('success', 'Le user a bien été supprimé');
         }
 
         return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
