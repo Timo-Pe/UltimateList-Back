@@ -45,11 +45,6 @@ class ListItem
      */
     private $item_rating;
 
-    /**
-     * @ORM\ManyToMany(targetEntity=Item::class, mappedBy="list_items", cascade={"persist"})
-     * @Groups("get_list_items_collection")
-     */
-    private $items;
 
     /**
      * @ORM\ManyToOne(targetEntity=Mode::class, inversedBy="listItems", cascade={"persist"})
@@ -64,6 +59,11 @@ class ListItem
      * @Groups("get_list_items_collection")
      */
     private $user;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Item::class, inversedBy="list_items")
+     */
+    private $item;
 
     public function __construct()
     {
@@ -123,32 +123,6 @@ class ListItem
         return $this;
     }
 
-    /**
-     * @return Collection<int, Item>
-     */
-    public function getItems(): Collection
-    {
-        return $this->items;
-    }
-
-    public function addItem(Item $item): self
-    {
-        if (!$this->items->contains($item)) {
-            $this->items[] = $item;
-            $item->addListItem($this);
-        }
-
-        return $this;
-    }
-
-    public function removeItem(Item $item): self
-    {
-        if ($this->items->removeElement($item)) {
-            $item->removeListItem($this);
-        }
-
-        return $this;
-    }
 
     public function getMode(): ?Mode
     {
@@ -170,6 +144,18 @@ class ListItem
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getItem(): ?Item
+    {
+        return $this->item;
+    }
+
+    public function setItem(?Item $item): self
+    {
+        $this->item = $item;
 
         return $this;
     }

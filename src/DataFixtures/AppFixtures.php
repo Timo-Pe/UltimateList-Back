@@ -119,7 +119,7 @@ class AppFixtures extends Fixture
                  ->setItemComment($listItemInfos["item_comment"])
                  ->setItemRating($listItemInfos["item_rating"])
                  ->setMode($modeList[$listItemInfos["modeIndex"]])
-                 ->addItem($itemList[$listItemInfos["itemIndex"]])
+                 ->setItem($itemList[$listItemInfos["itemIndex"]])
                  ->setUser($userList[$listItemInfos["user"]]);
             $listItemList[] = $listItem;
                  

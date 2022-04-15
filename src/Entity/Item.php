@@ -83,12 +83,6 @@ class Item
     private $mode;
 
     /**
-     * @ORM\ManyToMany(targetEntity=ListItem::class, inversedBy="items", cascade={"persist"})
-     * @Groups({"get_platforms_collection", "get_items_collection", "get_modes_collection", "get_tags_collection"})
-     */
-    private $list_items;
-
-    /**
      * @ORM\ManyToMany(targetEntity=Platform::class, inversedBy="items", cascade={"persist"})
      * @Groups({"get_items_collection", "get_list_items_collection", "get_modes_collection", "get_tags_collection"})
      */
@@ -99,6 +93,11 @@ class Item
      * @Groups({"get_platforms_collection", "get_items_collection", "get_list_items_collection", "get_modes_collection"})
      */
     private $tags;
+
+    /**
+     * @ORM\OneToMany(targetEntity=ListItem::class, mappedBy="item")
+     */
+    private $list_items;
 
     public function __construct()
     {
@@ -232,29 +231,6 @@ class Item
         return $this;
     }
 
-    /**
-     * @return Collection<int, ListItem>
-     */
-    public function getListItems(): ?Collection
-    {
-        return $this->list_items;
-    }
-
-    public function addListItem(ListItem $listItem): self
-    {
-        if (!$this->list_items->contains($listItem)) {
-            $this->list_items[] = $listItem;
-        }
-
-        return $this;
-    }
-
-    public function removeListItem(ListItem $listItem): self
-    {
-        $this->list_items->removeElement($listItem);
-
-        return $this;
-    }
 
     /**
      * @return Collection<int, Platform>
@@ -307,6 +283,36 @@ class Item
     public function __toString()
     {
         return $this->name;
+    }
+
+    /**
+     * @return Collection<int, ListItem>
+     */
+    public function getListItems(): Collection
+    {
+        return $this->list_items;
+    }
+
+    public function addListItem(ListItem $listItem): self
+    {
+        if (!$this->list_items->contains($listItem)) {
+            $this->list_items[] = $listItem;
+            $listItem->setItem($this);
+        }
+
+        return $this;
+    }
+
+    public function removeListItem(ListItem $listItem): self
+    {
+        if ($this->list_items->removeElement($listItem)) {
+            // set the owning side to null (unless already changed)
+            if ($listItem->getItem() === $this) {
+                $listItem->setItem(null);
+            }
+        }
+
+        return $this;
     }
 
 }
