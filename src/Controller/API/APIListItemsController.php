@@ -140,7 +140,7 @@ class APIListItemsController extends AbstractController
         $listItemEdit = $serializer->deserialize($jsonContent, ListItem::class, 'json', [AbstractNormalizer::OBJECT_TO_POPULATE => $listItem]);
 
         $listItemEdit->setMode($listItem->getItem()->getMode());
-        dd($listItemEdit);
+        
         $entityManager = $doctrine->getManager();
         $entityManager->persist($listItemEdit);
         $entityManager->flush();
