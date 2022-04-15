@@ -6,7 +6,7 @@
     <div class="container my-4">
         {{ include('_flash_messages.html.twig') }}
         <h1>Liste des Users</h1>
-
+        <a class="btn btn-success" href="{{ path('app_user_new') }}">Créer un nouveau User</a>
         <table class="table">
             <thead>
                 <tr>
@@ -37,6 +37,5 @@
             </tbody>
         </table>
 
-        <a class="btn btn-success" href="{{ path('app_user_new') }}">Créer un nouveau User</a>
     </div>
 {% endblock %}
