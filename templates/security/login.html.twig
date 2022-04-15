@@ -15,7 +15,11 @@
             </div>
         {% endif %}
 
-        <h1 class="h3 mb-3 font-weight-normal">Connectez-vous pour accéder au BackOffice</h1>
+        <div class="mx-auto" style="width: 200px;">        
+            <img width="100" src="https://cdn.discordapp.com/attachments/928622197323485184/964522873035292762/logo.png"></img>
+        </div>
+        <h1 class="h3 mb-3 font-weight-normal mx-auto" style="width: 600px;">Connectez-vous pour accéder au BackOffice</h1>
+
         <label for="inputUsername">Username</label>
         <input type="text" value="{{ last_username }}" name="username" id="inputUsername" class="form-control" autocomplete="username" required autofocus>
         <label for="inputPassword">Mot de passe</label>
@@ -35,10 +39,11 @@
                 </label>
             </div>
         #}
-
-        <button class="btn btn-lg btn-primary" type="submit">
-            Sign in
-        </button>
+        <div class="mx-auto" style="width: 200px;">
+            <button class="btn btn-lg btn-primary mt-4" type="submit">
+                Se connecter
+            </button>
+        </div>
     </form>
 </div>
 {% endblock %}

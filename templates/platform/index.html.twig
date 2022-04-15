@@ -28,8 +28,9 @@
                 {% endfor %}
                 </td>
                 <td class = "align-middle">
-                    <a class="btn btn-primary" href="{{ path('app_platform_show', {'id': platform.id}) }}">Voir</a>
-                    <a class="btn btn-warning" href="{{ path('app_platform_edit', {'id': platform.id}) }}">Editer</a>
+                    <a class="btn btn-sm btn-primary" href="{{ path('app_platform_show', {'id': platform.id}) }}"><ion-icon name="eye-outline"></ion-icon></a>
+                    <a class="btn btn-sm btn-warning" href="{{ path('app_platform_edit', {'id': platform.id}) }}"><ion-icon name="create-outline"></a>
+                        {{ include('platform/_delete_form.html.twig') }}
                 </td>
             </tr>
         {% else %}
