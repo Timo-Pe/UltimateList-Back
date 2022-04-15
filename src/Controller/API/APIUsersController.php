@@ -89,12 +89,12 @@ class APIUsersController extends AbstractController
             );
         }
 
-        $errors = $validator->validate($user);
+        $errors = $validator->validate($user, null, ['registration']);
 
         if (count($errors) > 0) {
             $errorsClean = [];
             foreach ($errors as $error) {
-                $errorsClean[$error->getPropertyPath()][] = "Attention ce champ est invalide !";
+                $errorsClean[$error->getPropertyPath()][] = $error->getMessage();
             };
             return $this->json($errorsClean, Response::HTTP_UNPROCESSABLE_ENTITY);
         }
@@ -104,7 +104,9 @@ class APIUsersController extends AbstractController
         $newUser->setUsername($user->getUsername())
                 ->setEmail($user->getEmail());
 
-        $plaintextPassword = $user->getPassword();
+        
+        $plaintextPassword = $user->getPlainPassword();
+        
         $hashedPassword = $passwordHasher->hashPassword(
             $newUser,
             $plaintextPassword
@@ -125,7 +127,7 @@ class APIUsersController extends AbstractController
 
         return $this->json(
             // Les données à sérialiser (à convertir en JSON)
-            $user,
+            $newUser,
             // Le status code
             Response::HTTP_CREATED,
             // Les en-têtes de réponse à ajouter (aucune)
@@ -161,10 +163,30 @@ class APIUsersController extends AbstractController
      * Besoin Front : modifier le profil
      */
     
-    public function editUser(UserPasswordHasherInterface $passwordHasher,User $user,ManagerRegistry $doctrine, SerializerInterface $serializer, Request $request)
+    public function editUser(UserPasswordHasherInterface $passwordHasher,User $user,ManagerRegistry $doctrine, SerializerInterface $serializer, Request $request, ValidatorInterface $validator)
     {
         $this->denyAccessUnlessGranted('USER_EDIT', $user);
         $jsonContent = $request->getContent();
+
+        try {
+            $user = $serializer->deserialize($jsonContent, User::class, 'json');
+        } catch (NotEncodableValueException $e) {
+            return $this->json(
+                ['error' => 'JSON invalide'],
+                Response::HTTP_UNPROCESSABLE_ENTITY
+            );
+        }
+
+        $errors = $validator->validate($user, null, ['api_patch']);
+
+        if (count($errors) > 0) {
+            $errorsClean = [];
+            foreach ($errors as $error) {
+                $errorsClean[$error->getPropertyPath()][] = $error->getMessage();
+            };
+            return $this->json($errorsClean, Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
         $userEdit = $serializer->deserialize($jsonContent, User::class, 'json', [AbstractNormalizer::OBJECT_TO_POPULATE => $user]);
 
         $user->setUsername($userEdit->getUsername())
