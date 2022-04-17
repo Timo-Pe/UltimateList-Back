@@ -11,7 +11,6 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Security\Core\User\EquatableInterface;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
@@ -26,7 +25,7 @@ use Symfony\Component\Security\Core\User\EquatableInterface;
  *      message="Cet email est déjà utilisé"
  * )
  */
-class User implements UserInterface, PasswordAuthenticatedUserInterface, EquatableInterface
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     /**
      * @ORM\Id
@@ -272,22 +271,5 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
         $this->plainPassword = $plainPassword;
 
         return $this;
-    }
-
-    public function isEqualTo(UserInterface $user)
-    {
-    //if ($this->password !== $user->getPassword()) {
-    //    return false;
-    //}
-
-    //if ($this->salt !== $user->getSalt()) {
-    //    return false;
-    //}
-
-    if ($this->username !== $user->getUserIdentifier()) {
-        return false;
-    }
-
-    return true;
     }
 }
