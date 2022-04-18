@@ -99,7 +99,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $email;
 
     /**
-     * @ORM\OneToMany(targetEntity=ListItem::class, mappedBy="user", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity=ListItem::class, mappedBy="user", cascade={"persist", "remove"})
      * @Groups("get_users_collection")
      * 
      */
