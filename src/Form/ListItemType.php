@@ -19,15 +19,25 @@ class ListItemType extends AbstractType
     {
         $builder
             ->add('item_status', IntegerType::class, [
-                'label' => 'Statut'
+                'label' => 'Statut',
+                'required' => false,
+                'attr' => [
+                    'placeholder' => 'Statut 0 par défaut'
+                ]
             ])
             ->add('item_comment', TextType::class, [
                 'label' => 'Commentaire',
                 'required' => false,
+                'attr' => [
+                    'placeholder' => 'Peut être laissé vide'
+                ]
             ])
             ->add('item_rating', IntegerType::class, [
                 'label' => 'Note',
                 'required' => false,
+                'attr' => [
+                    'placeholder' => 'Peut être laissé vide'
+                ]
             ])
             ->add('user', EntityType::class, [
                 'class' => User::class,
