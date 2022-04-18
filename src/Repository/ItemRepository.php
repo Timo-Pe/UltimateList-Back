@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Item;
+use App\Entity\ListItem;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
@@ -63,21 +64,19 @@ class ItemRepository extends ServiceEntityRepository
      */
     public function findAllExceptInListItem($userId)
     {
-        $entityManager = $this->getEntityManager();
-
-        $query = $entityManager->createQuery(
-            "SELECT item
-            FROM App\Entity\Item item
-            EXCEPT
-            SELECT item
-            FROM App\Entity\Item item
-            INNER JOIN App\Entity\ListItem listItem
-            INNER JOIN App\Entity\User user
-            WHERE listItem.user = user.id
-            AND user.id = $userId
-            AND listItem.item = item.id"
-        );
-
-        return $query->getResult();
+        return $this->createQueryBuilder('i')
+            ->select('i.id, i.name')
+            ->innerJoin('App\Entity\ListItem', 'li', 'WITH', 'li.item = i.id')
+            ->where('li.item NOT IN (
+                        SELECT item.id
+                        FROM App\Entity\Item item
+                        INNER JOIN App\Entity\ListItem list_item
+                        WHERE list_item.item = item.id
+                        AND list_item.user = :user
+                    )' )
+            ->setParameter('user', $userId)
+            ->getQuery()
+            ->getResult()
+        ;
     }
 }
