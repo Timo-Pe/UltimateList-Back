@@ -11,6 +11,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 class UserType extends AbstractType
@@ -18,7 +19,10 @@ class UserType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('username', TextType::class)
+            ->add('username', TextType::class,[
+            'constraints' => [
+                new NotBlank(),
+            ]])
             ->add('roles', ChoiceType::class, [
                 'choices'  => [
                     'Utilisateur' => 'ROLE_USER',
@@ -66,7 +70,12 @@ class UserType extends AbstractType
                     ]);
                 }
             })
-            ->add('email', TextType::class)
+            ->add('email', TextType::class, [
+                'constraints' => [
+                    new NotBlank(),
+                    new Email()
+                ],
+            ])
         ;
     }
 
