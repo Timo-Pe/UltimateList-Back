@@ -4,6 +4,7 @@ namespace App\Controller\API;
 
 use App\Entity\Item;
 use App\Entity\Mode;
+use App\Entity\User;
 use App\Repository\ItemRepository;
 use App\Repository\ModeRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -25,6 +26,28 @@ class APIItemsController extends AbstractController
     public function itemList(ItemRepository $itemsList): Response
     {
         $itemsCollection = $itemsList->findAll();
+        //$item = $serializer->serialize($itemsCollection, 'json');
+       
+        return $this->json(
+            // Les données à sérialiser (à convertir en JSON)
+            $itemsCollection,
+            // Le status code
+            200,
+            // Les en-têtes de réponse à ajouter (aucune)
+            [],
+            ['groups' => 'get_items_collection']
+        );
+    }
+
+    /**
+     * @Route("/api/items/recco/{userId<\d+>}", name="app_api_items_recco")
+     * Affiche la liste des items
+     * Besoin Front : pour les recommandations et les recherches
+     */
+    public function itemListRecco(ItemRepository $itemsList, $userId): Response
+    {
+        $itemsCollection = $itemsList->findAllExceptInListItem($userId);
+        dd($itemsCollection);
         //$item = $serializer->serialize($itemsCollection, 'json');
        
         return $this->json(

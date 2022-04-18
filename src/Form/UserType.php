@@ -12,6 +12,7 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Email;
+use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 class UserType extends AbstractType
@@ -20,9 +21,11 @@ class UserType extends AbstractType
     {
         $builder
             ->add('username', TextType::class,[
-            'constraints' => [
-                new NotBlank(),
-            ]])
+                'constraints' => [
+                    new NotBlank(),
+                    new Length(['min' => 5])
+                ]
+            ])
             ->add('roles', ChoiceType::class, [
                 'choices'  => [
                     'Utilisateur' => 'ROLE_USER',
@@ -59,6 +62,7 @@ class UserType extends AbstractType
                         // (notamment à l'edit en cas de passage d'une valeur existante à vide)
                         'label' => 'Mot de passe',
                         'empty_data' => '',
+                        'help' => 'Le mot de passe doit contenir au minimum 8 caractères, une majuscule, un chiffre et un caractère spécial',
                         // On déplace les contraintes de l'entité vers le form d'ajout
                         'constraints' => [
                             new NotBlank(),
@@ -83,6 +87,7 @@ class UserType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => User::class,
+            
         ]);
     }
 }

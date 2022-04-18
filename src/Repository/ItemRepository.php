@@ -58,15 +58,26 @@ class ItemRepository extends ServiceEntityRepository
         ;
     }
 
-    /*
-    public function findOneBySomeField($value): ?Item
+    /**
+     * @return Item[] Returns an array of Item objects
+     */
+    public function findAllExceptInListItem($userId)
     {
-        return $this->createQueryBuilder('i')
-            ->andWhere('i.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            "SELECT item
+            FROM App\Entity\Item item
+            EXCEPT
+            SELECT item
+            FROM App\Entity\Item item
+            INNER JOIN App\Entity\ListItem listItem
+            INNER JOIN App\Entity\User user
+            WHERE listItem.user = user.id
+            AND user.id = $userId
+            AND listItem.item = item.id"
+        );
+
+        return $query->getResult();
     }
-    */
 }

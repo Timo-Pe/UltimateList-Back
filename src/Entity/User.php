@@ -43,6 +43,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      *      message = "Vous devez renseigner un nom d'utilisateur"
      * )
      * @Assert\Length(
+     *      groups={"registration"},
      *      min = 5,
      *      minMessage = "Votre nom d'utilisateur doit contenir au moins {{ limit }} caractères",
      * )
