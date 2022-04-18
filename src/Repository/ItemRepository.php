@@ -64,19 +64,27 @@ class ItemRepository extends ServiceEntityRepository
      */
     public function findAllExceptInListItem($userId)
     {
-        return $this->createQueryBuilder('i')
-            ->select('i.id, i.name')
-            ->innerJoin('App\Entity\ListItem', 'li', 'WITH', 'li.item = i.id')
-            ->where('li.item NOT IN (
+        return $this->createQueryBuilder('i')   
+            ->leftJoin('App\Entity\ListItem', 'li', 'WITH', 'li.item = i.id')
+            ->where('i.id NOT IN (
                         SELECT item.id
                         FROM App\Entity\Item item
-                        INNER JOIN App\Entity\ListItem list_item
-                        WHERE list_item.item = item.id
-                        AND list_item.user = :user
-                    )' )
+                        INNER JOIN App\Entity\ListItem list
+                        WHERE list.item = item.id
+                        AND list.user = :user
+                    )')
             ->setParameter('user', $userId)
             ->getQuery()
             ->getResult()
         ;
     }
 }
+
+//SELECT item.*
+//FROM item
+//LEFT JOIN list_item
+//ON list_item.item_id = item.id
+//WHERE item.id NOT IN 
+//(SELECT list_item.item_id
+//FROM list_item
+//WHERE list_item.user_id = 1)
