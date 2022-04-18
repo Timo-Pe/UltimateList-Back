@@ -40,6 +40,7 @@ class ListItemController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $listItem->setItemAddedAt(new DateTimeImmutable("NOW"));
+            $listItem->setItemStatus(0);
             $listItem->setMode($listItem->getItem()->getMode());
 
             $listItemRepository->add($listItem);

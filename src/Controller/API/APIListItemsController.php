@@ -79,34 +79,37 @@ class APIListItemsController extends AbstractController
             };
             return $this->json($errorsClean, Response::HTTP_UNPROCESSABLE_ENTITY);
         }
-        
-        $newListItem = new ListItem();
 
-        $newListItem->setItemAddedAt(new DateTimeImmutable("NOW"))
-                    ->setItemComment(null)
-                    ->setItemRating(null)
-                    ->setItemStatus(0)
-                    ->setMode($listItem->getItem()->getMode())
-                    ->setUser($listItem->getUser());
+        if ($listItem->getItem() ) {
+            $newListItem = new ListItem();
 
-        $newListItem->setItem($listItem->getItem());
+            $newListItem->setItemAddedAt(new DateTimeImmutable("NOW"))
+                        ->setItemComment(null)
+                        ->setItemRating(null)
+                        ->setItemStatus(0)
+                        ->setMode($listItem->getItem()->getMode())
+                        ->setUser($listItem->getUser());
+    
+            $newListItem->setItem($listItem->getItem());
+    
+    
+            $entityManager = $doctrine->getManager();
+            $entityManager->persist($newListItem);
+            $entityManager->flush();
+    
+            return $this->json(
+                // Les données à sérialiser (à convertir en JSON)
+                $newListItem,
+                // Le status code
+                Response::HTTP_CREATED,
+                // Les en-têtes de réponse à ajouter (aucune)
+                [
+                    //'Location' => $this->generateUrl('api_listitems_get_listitem', ['id' => $listitem->getId()])
+                ],
+                ['groups' => 'get_list_items_collection']
+            );
+        }
 
-
-        $entityManager = $doctrine->getManager();
-        $entityManager->persist($newListItem);
-        $entityManager->flush();
-
-        return $this->json(
-            // Les données à sérialiser (à convertir en JSON)
-            $newListItem,
-            // Le status code
-            Response::HTTP_CREATED,
-            // Les en-têtes de réponse à ajouter (aucune)
-            [
-                //'Location' => $this->generateUrl('api_listitems_get_listitem', ['id' => $listitem->getId()])
-            ],
-            ['groups' => 'get_list_items_collection']
-        );
     }
 
     /**
