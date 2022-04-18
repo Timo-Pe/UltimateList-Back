@@ -88,9 +88,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Column(type="string", length=255)
      * @Groups("get_users_collection")
      * @Assert\NotBlank (
+     *      groups={"registration"},
      *      message = "Vous devez renseigner un email"
      * )
      * @Assert\Email(
+     *     groups={"registration"},
      *     message = "La valeur '{{ value }}' n'est pas un email valide."
      * )
      */
