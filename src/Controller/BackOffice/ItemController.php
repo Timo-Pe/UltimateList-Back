@@ -41,6 +41,7 @@ class ItemController extends AbstractController
             return $this->redirectToRoute('app_item_index', [], Response::HTTP_SEE_OTHER);
         }
 
+ 
         return $this->renderForm('item/new.html.twig', [
             'item' => $item,
             'form' => $form,

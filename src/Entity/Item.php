@@ -101,6 +101,7 @@ class Item
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     *  @Groups({"get_platforms_collection", "get_items_collection", "get_list_items_collection", "get_modes_collection", "get_tags_collection"})
      */
     private $background_image;
 
