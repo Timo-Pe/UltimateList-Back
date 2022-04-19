@@ -75,6 +75,7 @@ class ItemRepository extends ServiceEntityRepository
                         AND list.user = :user
                     )')
             ->setParameter('user', $userId)
+            ->orderBy('i.id', 'DESC')
             ->getQuery()
             ->getResult()
         ;

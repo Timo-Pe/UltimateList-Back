@@ -26,7 +26,7 @@ class APIListItemsController extends AbstractController
      */
     public function listItemList(ListItemRepository $listItemsList): Response
     {
-        $listItemsCollection = $listItemsList->findAll();
+        $listItemsCollection = $listItemsList->findAllOrderedByAdded();
         //$listitem = $serializer->serialize($listitemsCollection, 'json');
        
         return $this->json(

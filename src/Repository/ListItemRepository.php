@@ -96,4 +96,17 @@ class ListItemRepository extends ServiceEntityRepository
 
         return $query->getResult();
     }
+
+    /**
+     * Get list of items by listItem, ordered by ID desc
+     */
+    public function findAllOrderedByAdded()
+    {
+        return $this->createQueryBuilder('l')
+            ->orderBy('l.id', 'DESC')
+            ->getQuery()
+            ->getResult()
+        ;
+
+    }
 }
