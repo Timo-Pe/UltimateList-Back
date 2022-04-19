@@ -40,14 +40,13 @@ class APIItemsController extends AbstractController
     }
 
     /**
-     * @Route("/api/items/recco/{userId<\d+>}", name="app_api_items_recco")
+     * @Route("/api/items/recommandations/{userId<\d+>}", name="app_api_items_recco")
      * Affiche la liste des items
      * Besoin Front : pour les recommandations et les recherches
      */
     public function itemListRecco(ItemRepository $itemsList, $userId): Response
     {
         $itemsCollection = $itemsList->findAllExceptInListItem($userId);
-        dd($itemsCollection);
         //$item = $serializer->serialize($itemsCollection, 'json');
        
         return $this->json(
