@@ -14,11 +14,9 @@
                 Vous êtes connecté en tant que {{ app.user.username }}, <a href="{{ path('app_logout') }}">Se déconnecter</a>
             </div>
         {% endif %}
-
-        <div class="mx-auto" style="width: 200px;">        
-            <img width="100" src="https://cdn.discordapp.com/attachments/928622197323485184/964522873035292762/logo.png"></img>
-        </div>
-        <h1 class="h3 mb-3 font-weight-normal mx-auto" style="width: 600px;">Connectez-vous pour accéder au BackOffice</h1>
+     
+        <img width="100" class="mx-auto d-block" src="https://cdn.discordapp.com/attachments/928622197323485184/964522873035292762/logo.png"></img>
+        <h1 class="h3 mb-3 font-weight-normal mx-auto text-center" style="width: 600px;">Connectez-vous pour accéder au BackOffice</h1>
 
         <label for="inputUsername">Username</label>
         <input type="text" value="{{ last_username }}" name="username" id="inputUsername" class="form-control" autocomplete="username" required autofocus>
@@ -40,7 +38,7 @@
             </div>
         #}
         <div class="mx-auto" style="width: 200px;">
-            <button class="btn btn-lg btn-primary mt-4" type="submit">
+            <button class="btn btn-lg btn-primary mt-4 d-block mx-auto" type="submit">
                 Se connecter
             </button>
         </div>

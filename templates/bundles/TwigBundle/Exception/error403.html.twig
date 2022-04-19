@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="container my-4">
+    <h1 class="mb-4 font-weight-normal mx-auto text-center">Erreur 403 - Vous ne passerez pas !</h1>
+    <h3 class="mb-4 font-weight-normal mx-auto text-center">Vous devez avoir un rôle admin pour accéder au BackOffice</h3>
+    <img class="mx-auto d-block mt-5" style="width: 200px;" src="{{ asset('https://cdna.artstation.com/p/assets/images/images/020/833/710/original/francesco-montibello-gandalf-1.gif?1569345311') }}" alt="Dominique" title="Dominique"/>
+
+    <a class="btn btn-sm btn-success d-block mx-auto mt-5" style="width: 250px;" href="{{ path('app_login') }}">Retour à la page de connexion</a>
+
+</div>
+{% endblock %}

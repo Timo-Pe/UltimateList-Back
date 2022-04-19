@@ -1,6 +1,11 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Erreur 404 - Tu t'es perdu.e ?</h1>
-    <img src="{{ asset('https://66.media.tumblr.com/3850180b33e307f7a2a86d0eee2c21b5/tumblr_mmrawrF8vM1rfjowdo1_500.gif') }}" alt="Symfony!" />
+<div class="container my-4">
+    <h1 class="mb-4 font-weight-normal mx-auto text-center">Erreur 404 - Tu t'es perdu.e ?</h1>
+    <img class="mx-auto d-block mt-5" style="width: 200px;" src="{{ asset('https://66.media.tumblr.com/3850180b33e307f7a2a86d0eee2c21b5/tumblr_mmrawrF8vM1rfjowdo1_500.gif') }}" alt="Dominique" title="Dominique"/>
+
+    <a class="btn btn-sm btn-success d-block mx-auto mt-5" style="width: 150px;" href="{{ path('app_main_back') }}">Retour à l'accueil</a>
+
+</div>
 {% endblock %}
