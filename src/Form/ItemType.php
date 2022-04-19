@@ -64,7 +64,11 @@ class ItemType extends AbstractType
                 ]
             ])
             ->add('image', TextType::class)
-            ->add('background_image', TextType::class)
+            ->add('background_image', TextType::class, [
+                'required' => false,
+                'help' => 'Si laissé vide, la background image sera l\'image de l\'item',
+                ])
+
             ->add('mode', EntityType::class, [
                 'class' => Mode::class,
                 'label' => 'Mode'

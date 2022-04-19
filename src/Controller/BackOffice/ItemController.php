@@ -36,11 +36,15 @@ class ItemController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            if (is_null($form->get('background_image')->getData())){
+                $item->setBackgroundImage($form->get('image')->getData());
+            }
+            
             $itemRepository->add($item);
             $this->addFlash('success', 'L\'Item a bien été créé');
             return $this->redirectToRoute('app_item_index', [], Response::HTTP_SEE_OTHER);
         }
-
  
         return $this->renderForm('item/new.html.twig', [
             'item' => $item,
@@ -67,6 +71,11 @@ class ItemController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            if (is_null($form->get('background_image')->getData())){
+                $item->setBackgroundImage($form->get('image')->getData());
+            }
+
             $entityManager = $doctrine->getManager();
             $itemRepository->add($item);
             $entityManager->flush();

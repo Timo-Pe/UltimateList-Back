@@ -35,7 +35,7 @@ class Tag
 
     /**
      * @ORM\Column(type="string", length=64, options={"default" : "#7068F4"})
-     * @Groups({"get_tags_collection", "get_items_collection"})
+     * @Groups({"get_tags_collection", "get_items_collection", "get_list_items_collection"})
      */
     private $color;
 
