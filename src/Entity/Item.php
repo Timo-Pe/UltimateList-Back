@@ -99,6 +99,11 @@ class Item
      */
     private $list_items;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $background_image;
+
     public function __construct()
     {
         $this->list_items = new ArrayCollection();
@@ -311,6 +316,18 @@ class Item
                 $listItem->setItem(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getBackgroundImage(): ?string
+    {
+        return $this->background_image;
+    }
+
+    public function setBackgroundImage(?string $background_image): self
+    {
+        $this->background_image = $background_image;
 
         return $this;
     }

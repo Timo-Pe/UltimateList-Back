@@ -63,7 +63,8 @@ class ItemType extends AbstractType
                     'placeholder' => 'Ne pas remplir en cas de mode Podcast'
                 ]
             ])
-            ->add('image')
+            ->add('image', TextType::class)
+            ->add('background_image', TextType::class)
             ->add('mode', EntityType::class, [
                 'class' => Mode::class,
                 'label' => 'Mode'
