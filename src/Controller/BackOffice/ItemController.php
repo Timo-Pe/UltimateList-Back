@@ -5,6 +5,7 @@ namespace App\Controller\BackOffice;
 use App\Entity\Item;
 use App\Form\ItemType;
 use App\Repository\ItemRepository;
+use App\Repository\ModeRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,10 +20,23 @@ class ItemController extends AbstractController
     /**
      * @Route("/", name="app_item_index", methods={"GET"})
      */
-    public function index(ItemRepository $itemRepository): Response
+    public function index(ItemRepository $itemRepository, ModeRepository $modeRepository): Response
     {
         return $this->render('item/index.html.twig', [
             'items' => $itemRepository->findAll(),
+            'modes' => $modeRepository->findAll()
+        ]);
+    }
+
+    /**
+     * @Route("/{modeId}", name="app_item_index_mode", methods={"GET"})
+     */
+    public function indexByMode(ItemRepository $itemRepository, ModeRepository $modeRepository, $modeId): Response
+    {
+        $findByMode = $itemRepository->findByMode($modeId);
+        return $this->render('item/index.html.twig', [
+            'items' => $findByMode,
+            'modes' => $modeRepository->findAll()
         ]);
     }
 

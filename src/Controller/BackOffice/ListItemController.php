@@ -3,9 +3,11 @@
 namespace App\Controller\BackOffice;
 
 use App\Entity\ListItem;
+use App\Entity\User;
 use App\Form\ListItemType;
 use App\Repository\ItemRepository;
 use App\Repository\ListItemRepository;
+use App\Repository\UserRepository;
 use DateTimeImmutable;
 use Doctrine\DBAL\Types\DateImmutableType;
 use Doctrine\Persistence\ManagerRegistry;
@@ -22,10 +24,24 @@ class ListItemController extends AbstractController
     /**
      * @Route("/", name="app_list_item_index", methods={"GET"})
      */
-    public function index(ListItemRepository $listItemRepository): Response
+    public function index(ListItemRepository $listItemRepository, UserRepository $userRepository): Response
     {
         return $this->render('list_item/index.html.twig', [
             'list_items' => $listItemRepository->findAll(),
+            'users' => $userRepository->findAll()
+        ]);
+    }
+
+    /**
+     * @Route("/{userId}", name="app_list_item_index_user", methods={"GET"})
+     */
+    public function indexByUser(ListItemRepository $listItemRepository, UserRepository $userRepository, $userId): Response
+    {
+        $findByUser = $listItemRepository->findByUser($userId);
+
+        return $this->render('list_item/index.html.twig', [
+            'list_items' => $findByUser,
+            'users' => $userRepository->findAll()
         ]);
     }
 

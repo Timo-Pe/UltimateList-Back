@@ -29,6 +29,17 @@ class UserController extends AbstractController
     }
 
     /**
+     * @Route("/{role}", name="app_user_index_role", methods={"GET"})
+     */
+    public function indexByRole(UserRepository $userRepository, $role): Response
+    {
+        $findByRole = $userRepository->findByRole($role);
+        return $this->render('user/index.html.twig', [
+            'users' => $findByRole
+        ]);
+    }
+
+    /**
      * @Route("/new", name="app_user_new", methods={"GET", "POST"})
      */
     public function new(Request $request, UserRepository $userRepository, EntityManagerInterface $entityManager, UserPasswordHasherInterface $userPasswordHasher, ValidatorInterface $validator): Response
