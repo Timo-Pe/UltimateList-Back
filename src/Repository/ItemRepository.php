@@ -61,6 +61,7 @@ class ItemRepository extends ServiceEntityRepository
 
     /**
      * @return Item[] Returns an array of Item objects
+     * 
      */
     public function findAllExceptInListItem($userId)
     {
@@ -88,3 +89,5 @@ class ItemRepository extends ServiceEntityRepository
 //(SELECT list_item.item_id
 //FROM list_item
 //WHERE list_item.user_id = 1)
+
+
