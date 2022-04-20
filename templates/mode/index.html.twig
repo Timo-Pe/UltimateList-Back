@@ -6,7 +6,7 @@
     <div class="container my-4">
         {{ include('_flash_messages.html.twig') }}
         <div class="d-flex justify-content-between mb-4">
-            <h1>Liste des Modes</h1>
+            <h1>Liste des Modes </h1>
             <a class="btn btn-success align-self-center" href="{{ path('app_mode_new') }}">Créer un nouveau Mode</a>
         </div>
 
@@ -24,6 +24,7 @@
             </thead>
             <tbody>
             {% for mode in modes %}
+    
                 <tr>
                     <td class = "align-middle">{{ mode.id }}</td>
                     <td class = "align-middle">{{ mode.name }}</td>
