@@ -38,14 +38,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @ORM\Column(type="string", length=180, unique=true)
      * @Groups({"get_platforms_collection", "get_items_collection", "get_list_items_collection", "get_modes_collection", "get_tags_collection", "get_users_collection"})
-     * @Assert\NotBlank (
-     *      groups={"registration"},
-     *      message = "Vous devez renseigner un nom d'utilisateur"
-     * )
      * @Assert\Length(
      *      groups={"registration"},
      *      min = 5,
-     *      minMessage = "Votre nom d'utilisateur doit contenir au moins {{ limit }} caractères",
+     *      minMessage = "Vous devez renseigner un nom d'utilisateur d'au moins {{ limit }} caractères",
      * )
      */
     private $username;
