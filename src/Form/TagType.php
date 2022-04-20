@@ -53,6 +53,7 @@ class TagType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Tag::class,
+            'validation_groups' => 'tag-registration'
         ]);
     }
 }

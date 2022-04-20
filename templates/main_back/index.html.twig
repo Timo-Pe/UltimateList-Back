@@ -5,15 +5,13 @@
 {% block body %}
 <div class="container my-4">
 
+    <div class="mb-4 text-center">
     {% if app.user %}
-        <div class="mb-3 text-center">
             <h1>Bienvenue {{ app.user.username }} !</h1>        
-        </div>
     {% else %}
-        <div class="mb-3">
             <h1>Bienvenue !</h1>        
-        </div>
     {% endif %}
+    </div>
 
     <div class="mt-4">
             <h3>Les catégories disponibles : </h3>
@@ -97,7 +95,7 @@
                             {% endfor %}
                         </tbody>
                     </table>
-                <h4><a href="{{ path('app_item_index') }}">Voir la totalité de la liste</a></h4>
+                <h4><a class="btn btn-sm btn-success" href="{{ path('app_item_index') }}">Voir la totalité de la liste</a></h4>
             </div>
         <div>
             <h3>Les derniers utilisateurs inscrits : </h3>
@@ -130,7 +128,7 @@
                         {% endfor %}
                     </tbody>
                 </table>
-            <h4><a href="{{ path('app_user_index') }}">Voir la totalité de la liste</a></h4>
+            <h4><a class="btn btn-sm btn-success" href="{{ path('app_user_index') }}">Voir la totalité de la liste</a></h4>
         </div>
     </div>
 </div>
