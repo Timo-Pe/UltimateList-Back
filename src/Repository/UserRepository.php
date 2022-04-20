@@ -104,4 +104,17 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         ;
 
     } 
+
+    /**
+     * @return User[] Returns an array of users by id
+     */
+    public function findAllOrderById()
+    {
+        return $this->createQueryBuilder('u')
+            ->orderBy('u.id', 'DESC')
+            ->setMaxResults(4)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 }

@@ -6,10 +6,7 @@
 <div class="container my-4">
     <h1>Editer l'Item</h1>
 
-    {{ include('item/_form.html.twig', {'button_label': 'Sauvegarder'}) }}
+    {{ include('item/_form.html.twig')}}
 
-    <a class="btn btn-sm btn-success" href="{{ path('app_item_index') }}"><ion-icon name="return-down-back-outline"></ion-icon></a>
-
-    {{ include('item/_delete_form.html.twig') }}
 </div>
 {% endblock %}
