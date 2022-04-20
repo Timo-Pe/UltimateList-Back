@@ -6,10 +6,10 @@
     <div class="container my-4">
         <h1>Editer le User</h1>
 
+        
         {{ include('user/_form.html.twig', {'button_label': 'Sauvegarder'}) }}
 
-        <a class="btn btn-success" href="{{ path('app_user_index') }}">Retourner à la liste</a>
 
-        {{ include('user/_delete_form.html.twig') }}
+        
     </div>
 {% endblock %}

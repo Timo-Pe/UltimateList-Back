@@ -11,14 +11,17 @@
         <a class="btn btn-success align-self-center" href="{{ path('app_platform_new') }}">Créer une nouvelle Plateforme</a>
     </div>
     
-    <h5 class="mt-4 mb-2">Filtrer par Mode :</h5>
-
-        <div class="mb-4">
+    <div class="dropdown mb-4">
+        <button class="btn btn-secondary dropdown-toggle btn-light" style="background-color:#FFA47A; border-color: #FFA47A"type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Filtrer par Mode
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
             {% for mode in modes %}
-            <a class="btn btn-sm btn-primary" href="{{ path('app_platform_index_mode', {'modeId': mode.id }) }}">{{ mode.name }}</a>
+                <a class="dropdown-item" href="{{ path('app_platform_index_mode', {'modeId': mode.id }) }}">{{ mode.name }}</a>
             {% endfor %}
-            <a class="btn btn-sm btn-warning" href="{{ path('app_platform_index') }}">Tout voir</a>
+            <a class="dropdown-item" href="{{ path('app_platform_index') }}">Tout voir</a>
         </div>
+    </div>
     
     <table class="table">
         <thead>
@@ -42,10 +45,12 @@
                 {% endif %}
                 {% endfor %}
                 </td>
-                <td class = "align-middle">
+                <td >
+                <div class = "align-middle gap-1 d-flex" >
                     <a class="btn btn-sm btn-primary" href="{{ path('app_platform_show', {'id': platform.id}) }}"><ion-icon name="eye-outline"></ion-icon></a>
                     <a class="btn btn-sm btn-warning" href="{{ path('app_platform_edit', {'id': platform.id}) }}"><ion-icon name="create-outline"></a>
-                        {{ include('platform/_delete_form.html.twig') }}
+                    {{ include('platform/_delete_form.html.twig') }} 
+                </div>
                 </td>
             </tr>
         {% else %}
