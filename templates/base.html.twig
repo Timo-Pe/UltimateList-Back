@@ -35,22 +35,22 @@
                 <div class="collapse navbar-collapse d-flex justify-content-between" id="navbarText">
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ path('app_user_index') }}">Users</a>
+                            <a class="nav-link {{ app.request.attributes.get('_route') starts with 'app_user' ? 'active' }}" href="{{ path('app_user_index') }}">Users</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ path('app_item_index') }}">Items</a>
+                            <a class="nav-link {{ app.request.attributes.get('_route') starts with 'app_item' ? 'active' }}" href="{{ path('app_item_index') }}">Items</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ path('app_list_item_index') }}">ListItems</a>
+                            <a class="nav-link {{ app.request.attributes.get('_route') starts with 'app_list_item' ? 'active' }}" href="{{ path('app_list_item_index') }}">ListItems</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ path('app_mode_index') }}">Modes</a>
+                            <a class="nav-link {{ app.request.attributes.get('_route') starts with 'app_mode' ? 'active' }}" href="{{ path('app_mode_index') }}">Modes</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ path('app_tag_index') }}">Tags</a>
+                            <a class="nav-link {{ app.request.attributes.get('_route') starts with 'app_tag' ? 'active' }}" href="{{ path('app_tag_index') }}">Tags</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ path('app_platform_index') }}">Plateformes</a>
+                            <a class="nav-link {{ app.request.attributes.get('_route') starts with 'app_platform' ? 'active' }}" href="{{ path('app_platform_index') }}">Plateformes</a>
                         </li>
                     </ul>
                     {% if app.user %}

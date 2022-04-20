@@ -40,7 +40,7 @@
                     <td class = "align-middle">{{ item.id }}</td>
                     <td class = "align-middle">{{ item.name }}</td>
                     <td class = "align-middle col-4">{{ item.description|length > 120 ? item.description|slice(0, 120) ~ '...' : item.description  }}</td>
-                    <td class = "align-middle">{{ item.releaseDate ? item.releaseDate|date('Y-m-d') : '' }}</td>
+                    <td class = "align-middle">{{ item.releaseDate ? item.releaseDate|date("d-m-Y") }}</td>
                     <td class = "align-middle">{{ item.mode }}</td>
                     <td class = "align-middle">
                         <img src={{ item.image }} width="120" height ="120">
