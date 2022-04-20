@@ -60,6 +60,7 @@ class ModeType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Mode::class,
+            'validation_groups' => 'mode-registration'
         ]);
     }
 }

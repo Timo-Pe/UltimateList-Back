@@ -25,6 +25,7 @@ class PlatformType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Platform::class,
+            'validation_groups' => 'platform-registration'
         ]);
     }
 }
