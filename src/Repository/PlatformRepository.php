@@ -86,6 +86,5 @@ class PlatformRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult()
         ;
-
     }
 }

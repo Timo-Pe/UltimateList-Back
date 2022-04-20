@@ -29,7 +29,7 @@ class ItemController extends AbstractController
     }
 
     /**
-     * @Route("/{modeId}", name="app_item_index_mode", methods={"GET"})
+     * @Route("/mode/{modeId}", name="app_item_index_mode", methods={"GET"})
      */
     public function indexByMode(ItemRepository $itemRepository, ModeRepository $modeRepository, $modeId): Response
     {
@@ -38,7 +38,7 @@ class ItemController extends AbstractController
             'items' => $findByMode,
             'modes' => $modeRepository->findAll()
         ]);
-    }
+    } 
 
     /**
      * @Route("/new", name="app_item_new", methods={"GET", "POST"})

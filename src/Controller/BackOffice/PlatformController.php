@@ -29,7 +29,7 @@ class PlatformController extends AbstractController
     }
 
     /**
-     * @Route("/{modeId}", name="app_platform_index_mode", methods={"GET"})
+     * @Route("/mode/{modeId}", name="app_platform_index_mode", methods={"GET"})
      */
     public function indexByMode(PlatformRepository $platformRepository, ModeRepository $modeRepository, $modeId): Response
     {

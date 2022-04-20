@@ -5,8 +5,12 @@
 {% block body %}
     <div class="container my-4">
         {{ include('_flash_messages.html.twig') }}
-        <h1>Liste des Users</h1>
-        <a class="btn btn-success" href="{{ path('app_user_new') }}">Créer un nouveau User</a>
+
+        <div class="d-flex justify-content-between mb-4">
+            <h1>Liste des Users</h1>
+            <a class="btn btn-success align-self-center" href="{{ path('app_user_new') }}">Créer un nouveau User</a>
+        </div>
+
         <h5 class="mt-4 mb-2">Filtrer par Role :</h5>
 
         <div class="mb-4">

@@ -84,7 +84,7 @@ class ItemRepository extends ServiceEntityRepository
     /**
      * Get list of items by mode
      */
-    public function finByMode($modeId)
+    public function findByMode($modeId)
     {
         return $this->createQueryBuilder('i')
             ->andWhere('i.mode = :val')

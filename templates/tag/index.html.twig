@@ -6,8 +6,10 @@
     <div class="container my-4">
         {{ include('_flash_messages.html.twig') }}
     
+        <div class="d-flex justify-content-between mb-4">
         <h1>Liste des Tags</h1>
-        <a class="btn btn-success" href="{{ path('app_tag_new') }}">Créer un nouveau Tag</a>
+        <a class="btn btn-success align-self-center" href="{{ path('app_tag_new') }}">Créer un nouveau Tag</a>
+        </div>
 
         <table class="table">
             <thead>
@@ -23,11 +25,13 @@
                 <tr>
                     <td class = "align-middle">{{ tag.id }}</td>
                     <td class = "align-middle">{{ tag.name }}</td>
-                    <td class = "align-middle">{{ tag.color }}</td>
+                    <td class = "align-middle"><span style="background-color:{{ tag.color }}; color:{{ tag.color }}">COLORS</span> {{ tag.color }}</td>
                     <td class = "align-middle">
+                    <div class="d-flex justify-content mb-4">
                         <a class="btn btn-sm btn-primary" href="{{ path('app_tag_show', {'id': tag.id}) }}"><ion-icon name="eye-outline"></ion-icon></a>
                         <a class="btn btn-sm btn-warning" href="{{ path('app_tag_edit', {'id': tag.id}) }}"><ion-icon name="create-outline"></a>
                         {{ include('tag/_delete_form.html.twig') }}
+                    </div>
                     </td>
                 </tr>
             {% else %}

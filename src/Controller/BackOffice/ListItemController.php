@@ -33,7 +33,7 @@ class ListItemController extends AbstractController
     }
 
     /**
-     * @Route("/{userId}", name="app_list_item_index_user", methods={"GET"})
+     * @Route("/user/{userId}", name="app_list_item_index_user", methods={"GET"})
      */
     public function indexByUser(ListItemRepository $listItemRepository, UserRepository $userRepository, $userId): Response
     {

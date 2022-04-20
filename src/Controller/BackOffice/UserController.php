@@ -29,7 +29,7 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/{role}", name="app_user_index_role", methods={"GET"})
+     * @Route("/role/{role}", name="app_user_index_role", methods={"GET"})
      */
     public function indexByRole(UserRepository $userRepository, $role): Response
     {
