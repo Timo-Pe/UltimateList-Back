@@ -109,4 +109,18 @@ class ListItemRepository extends ServiceEntityRepository
         ;
 
     }
+
+    /**
+     * Get list of items by user
+     */
+    public function finByUser($userId)
+    {
+        return $this->createQueryBuilder('l')
+            ->andWhere('l.user = :val')
+            ->setParameter('val', $userId)
+            ->getQuery()
+            ->getResult()
+        ;
+
+    }
 }

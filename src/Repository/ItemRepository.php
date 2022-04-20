@@ -80,6 +80,20 @@ class ItemRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
+
+    /**
+     * Get list of items by mode
+     */
+    public function findByMode($modeId)
+    {
+        return $this->createQueryBuilder('i')
+            ->andWhere('i.mode = :val')
+            ->setParameter('val', $modeId)
+            ->getQuery()
+            ->getResult()
+        ;
+
+    }
 }
 
 //SELECT item.*

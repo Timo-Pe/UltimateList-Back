@@ -73,4 +73,18 @@ class PlatformRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    /**
+     * Get list of platforms by mode
+     */
+    public function findByMode($modeId)
+    {
+        return $this->createQueryBuilder('p')
+            ->innerJoin('p.modes', 'm')
+            ->andWhere('m.id = :val')
+            ->setParameter('val', $modeId)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 }

@@ -4,6 +4,7 @@ namespace App\Controller\BackOffice;
 
 use App\Entity\Platform;
 use App\Form\PlatformType;
+use App\Repository\ModeRepository;
 use App\Repository\PlatformRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -19,10 +20,23 @@ class PlatformController extends AbstractController
     /**
      * @Route("/", name="app_platform_index", methods={"GET"})
      */
-    public function index(PlatformRepository $platformRepository): Response
+    public function index(PlatformRepository $platformRepository, ModeRepository $modeRepository): Response
     {
         return $this->render('platform/index.html.twig', [
             'platforms' => $platformRepository->findAll(),
+            'modes' => $modeRepository->findAll()
+        ]);
+    }
+
+    /**
+     * @Route("/mode/{modeId}", name="app_platform_index_mode", methods={"GET"})
+     */
+    public function indexByMode(PlatformRepository $platformRepository, ModeRepository $modeRepository, $modeId): Response
+    {
+        $findByMode = $platformRepository->findByMode($modeId);
+        return $this->render('platform/index.html.twig', [
+            'platforms' => $findByMode,
+            'modes' => $modeRepository->findAll()
         ]);
     }
 

@@ -5,8 +5,10 @@
 {% block body %}
     <div class="container my-4">
         {{ include('_flash_messages.html.twig') }}
-        <h1>Liste des Modes</h1>
-        <a class="btn btn-success" href="{{ path('app_mode_new') }}">Créer un nouveau Mode</a>
+        <div class="d-flex justify-content-between mb-4">
+            <h1>Liste des Modes</h1>
+            <a class="btn btn-success align-self-center" href="{{ path('app_mode_new') }}">Créer un nouveau Mode</a>
+        </div>
 
 
         <table class="table">
@@ -25,7 +27,7 @@
                 <tr>
                     <td class = "align-middle">{{ mode.id }}</td>
                     <td class = "align-middle">{{ mode.name }}</td>
-                    <td class = "align-middle">{{ mode.color }}</td>
+                    <td class = "align-middle"><span style="background-color:{{ mode.color }}; color:{{ mode.color }}">COLORS</span> {{ mode.color }}</td>
                     <td class = "align-middle">{{ mode.slug }}</td>
                     <td class = "align-middle">
                     {% for platform in mode.platforms %}
