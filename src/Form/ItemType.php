@@ -32,35 +32,35 @@ class ItemType extends AbstractType
                 'label' => 'Producteur',
                 'required' => false,
                 'attr' => [
-                    'placeholder' => 'Ne pas remplir en cas de mode Jeux Vidéo'
+                    'placeholder' => 'Podcast ou Film uniquement'
                 ]
             ])
             ->add('autor', TextType::class, [
-                'label' => 'Auteur',
+                'label' => 'Auteur / Réalisateur',
                 'required' => false,
                 'attr' => [
-                    'placeholder' => 'Ne pas remplir en cas de mode Jeux Vidéo'
+                    'placeholder' => 'Podcast ou Film uniquement'
                 ]
             ])
             ->add('host', TextType::class, [
-                'label' => 'Animateur',
+                'label' => 'Animateur / Acteur',
                 'required' => false,
                 'attr' => [
-                    'placeholder' => 'Ne pas remplir en cas de mode Jeux Vidéo'
+                    'placeholder' => 'Podcast ou Film uniquement'
                 ]
             ])
             ->add('developer', TextType::class, [
                 'label' => 'Développeur',
                 'required' => false,
                 'attr' => [
-                    'placeholder' => 'Ne pas remplir en cas de mode Podcast'
+                    'placeholder' => 'Jeu Vidéo uniquement'
                 ]
             ])
             ->add('editor', TextType::class, [
                 'label' => 'Editeur',
                 'required' => false,
                 'attr' => [
-                    'placeholder' => 'Ne pas remplir en cas de mode Podcast'
+                    'placeholder' => 'Jeu Vidéo uniquement'
                 ]
             ])
             ->add('image', TextType::class)

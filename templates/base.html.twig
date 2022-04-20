@@ -7,6 +7,11 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
         <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
         <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+        <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+        
         {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
@@ -21,39 +26,38 @@
         {% block subnav %}
 
         <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd;">
-            <div class="container-fluid">
+            <div class="container-fluid ">
                 <a class="navbar-brand" href="{{ path('app_main_back') }}">
                 <img width="70" src="https://cdn.discordapp.com/attachments/928622197323485184/964522873035292762/logo.png"></img>  BackOffice</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="collapse navbar-collapse" id="navbarText">
+                <div class="collapse navbar-collapse d-flex justify-content-between" id="navbarText">
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ path('app_user_index') }}">Users</a>
-            
+                            <a class="nav-link {{ app.request.attributes.get('_route') starts with 'app_user' ? 'active' }}" href="{{ path('app_user_index') }}">Users</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ path('app_item_index') }}">Items</a>
+                            <a class="nav-link {{ app.request.attributes.get('_route') starts with 'app_item' ? 'active' }}" href="{{ path('app_item_index') }}">Items</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ path('app_list_item_index') }}">ListItems</a>
+                            <a class="nav-link {{ app.request.attributes.get('_route') starts with 'app_list_item' ? 'active' }}" href="{{ path('app_list_item_index') }}">ListItems</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ path('app_mode_index') }}">Modes</a>
+                            <a class="nav-link {{ app.request.attributes.get('_route') starts with 'app_mode' ? 'active' }}" href="{{ path('app_mode_index') }}">Modes</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ path('app_tag_index') }}">Tags</a>
+                            <a class="nav-link {{ app.request.attributes.get('_route') starts with 'app_tag' ? 'active' }}" href="{{ path('app_tag_index') }}">Tags</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ path('app_platform_index') }}">Plateformes</a>
+                            <a class="nav-link {{ app.request.attributes.get('_route') starts with 'app_platform' ? 'active' }}" href="{{ path('app_platform_index') }}">Plateformes</a>
                         </li>
-                        {% if app.user %}
-                        <li>
-                            <a class="btn btn-danger" href="{{ path('app_logout') }}">Déconnexion</a>
-                        </li>
-                        {% endif %}
                     </ul>
+                    {% if app.user %}
+                        <div>
+                            <a class="btn btn-danger" href="{{ path('app_logout') }}">Déconnexion</a>
+                        </div>
+                    {% endif %}
                 </div>
             </div>
         </nav>

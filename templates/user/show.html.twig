@@ -18,11 +18,12 @@
                 </tr>
                 <tr>
                     <th>Roles</th>
-                    <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
-                </tr>
-                <tr>
-                    <th>Password</th>
-                    <td>{{ user.password }}</td>
+                    <td>                       
+                        {% if  user.roles|length < 2 %}
+                            User
+                        {% else %}
+                            Admin
+                        {% endif %}</td>
                 </tr>
                 <tr>
                     <th>Email</th>
@@ -30,11 +31,10 @@
                 </tr>
             </tbody>
         </table>
-
-        <a class="btn btn-sm btn-success" href="{{ path('app_user_index') }}"><ion-icon name="return-down-back-outline"></ion-icon></a>
-
-        <a class="btn btn-warning" href="{{ path('app_user_edit', {'id': user.id}) }}">Editer</a>
-
-        {{ include('user/_delete_form.html.twig') }}
+        <div class ="d-flex gap-1 text-center display-inline">
+            <a class="btn btn-sm btn-success" href="{{ path('app_user_index') }}"><ion-icon name="return-down-back-outline"></ion-icon></a>
+            <a class="btn btn-sm btn-warning" href="{{ path('app_user_edit', {'id': user.id}) }}"><ion-icon name="create-outline"></a>
+            {{ include('user/_delete_form.html.twig') }}
+        </div>
     </div>
 {% endblock %}
