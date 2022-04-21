@@ -94,6 +94,72 @@ class ItemRepository extends ServiceEntityRepository
         ;
 
     }
+
+    /**
+     * @return Item[] Returns an array of Item objects ordered by Id
+     */
+    public function findByCreationDate()
+    {
+        return $this->createQueryBuilder('i')
+            ->orderBy('i.id', 'DESC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    /**
+     * @return Item[] Returns an array of Item objects ordered by Id and Mode
+     */
+    public function findByCreationDateAndMode($modeId)
+    {
+        return $this->createQueryBuilder('i')
+            ->andWhere('i.mode = :val')
+            ->setParameter('val', $modeId)
+            ->orderBy('i.id', 'DESC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    /**
+     * @return Item[] Returns an array of Item objects ordered by Id and Mode
+     */
+    public function findByCreationDateAndModeOld($modeId)
+    {
+        return $this->createQueryBuilder('i')
+            ->andWhere('i.mode = :val')
+            ->setParameter('val', $modeId)
+            ->orderBy('i.id', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    /**
+     * @return Item[] Returns an array of Item objects ordered by name and mode
+     */
+    public function findByAlphabeticalOrderAndMode($modeId)
+    {
+        return $this->createQueryBuilder('i')
+            ->andWhere('i.mode = :val')
+            ->setParameter('val', $modeId)
+            ->orderBy('i.name', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    /**
+     * @return Item[] Returns an array of Item objects ordered by name
+     */
+    public function findByAlphabeticalOrder()
+    {
+        return $this->createQueryBuilder('i')
+            ->orderBy('i.name', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 }
 
 //SELECT item.*

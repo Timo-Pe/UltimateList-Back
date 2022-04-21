@@ -36,6 +36,70 @@ class ItemController extends AbstractController
         $findByMode = $itemRepository->findByMode($modeId);
         return $this->render('item/index.html.twig', [
             'items' => $findByMode,
+            'modes' => $modeRepository->findAll(),
+            'actualMode' => $modeId
+        ]);
+    } 
+
+    /**
+     * @Route("/added", name="app_item_index_creation", methods={"GET"})
+     */
+    public function indexByCreationDate(ItemRepository $itemRepository, ModeRepository $modeRepository): Response
+    {
+        $findByCreationDate = $itemRepository->findByCreationDate();
+        return $this->render('item/index.html.twig', [
+            'items' => $findByCreationDate,
+            'modes' => $modeRepository->findAll()
+        ]);
+    } 
+
+    /**
+     * @Route("/mode/{modeId}/added", name="app_item_index_mode_creation_new", methods={"GET"})
+     */
+    public function indexByCreationDateMode(ItemRepository $itemRepository, ModeRepository $modeRepository, $modeId): Response
+    {
+        $findByCreationDateAndMode = $itemRepository->findByCreationDateAndMode($modeId);
+        return $this->render('item/index.html.twig', [
+            'items' => $findByCreationDateAndMode,
+            'modes' => $modeRepository->findAll(),
+            'actualMode' => $modeId
+        ]);
+    } 
+
+    /**
+     * @Route("/mode/{modeId}/added/o", name="app_item_index_mode_creation_old", methods={"GET"})
+     */
+    public function indexByCreationDateModeOld(ItemRepository $itemRepository, ModeRepository $modeRepository, $modeId): Response
+    {
+        $findByCreationDateAndMode = $itemRepository->findByCreationDateAndModeOld($modeId);
+        return $this->render('item/index.html.twig', [
+            'items' => $findByCreationDateAndMode,
+            'modes' => $modeRepository->findAll(),
+            'actualMode' => $modeId
+        ]);
+    } 
+
+    /**
+     * @Route("/mode/{modeId}/alpha", name="app_item_index_mode_alpha", methods={"GET"})
+     */
+    public function indexByModeAndAlphabeticalOrder(ItemRepository $itemRepository, ModeRepository $modeRepository, $modeId): Response
+    {
+        $findByAlphabeticalOrderAndMode = $itemRepository->findByAlphabeticalOrderAndMode($modeId);
+        return $this->render('item/index.html.twig', [
+            'items' => $findByAlphabeticalOrderAndMode,
+            'modes' => $modeRepository->findAll(),
+            'actualMode' => $modeId
+        ]);
+    } 
+
+        /**
+     * @Route("/alpha", name="app_item_index_alpha", methods={"GET"})
+     */
+    public function indexByAlphabeticalOrder(ItemRepository $itemRepository, ModeRepository $modeRepository): Response
+    {
+        $findByAlphabeticalOrder = $itemRepository->findByAlphabeticalOrder();
+        return $this->render('item/index.html.twig', [
+            'items' => $findByAlphabeticalOrder,
             'modes' => $modeRepository->findAll()
         ]);
     } 

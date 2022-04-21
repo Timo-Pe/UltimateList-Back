@@ -41,9 +41,73 @@ class ListItemController extends AbstractController
 
         return $this->render('list_item/index.html.twig', [
             'list_items' => $findByUser,
-            'users' => $userRepository->findAll()
+            'users' => $userRepository->findAll(),
+            'actualUser' => $userId
         ]);
     }
+
+    /**
+     * @Route("/added", name="app_list_item_index_creation", methods={"GET"})
+     */
+    public function indexByCreationDate(ListItemRepository $listItemRepository, UserRepository $userRepository): Response
+    {
+        $findByCreationDate = $listItemRepository->findByCreationDate();
+        return $this->render('list_item/index.html.twig', [
+            'list_items' => $findByCreationDate,
+            'users' => $userRepository->findAll()
+        ]);
+    } 
+
+    /**
+     * @Route("/user/{userId}/added", name="app_list_item_index_user_creation_new", methods={"GET"})
+     */
+    public function indexByCreationDateUser(ListItemRepository $listItemRepository, UserRepository $userRepository, $userId): Response
+    {
+        $findByCreationDateAndUser = $listItemRepository->findByCreationDateAndUser($userId);
+        return $this->render('list_item/index.html.twig', [
+            'list_items' => $findByCreationDateAndUser,
+            'users' => $userRepository->findAll(),
+            'actualUser' => $userId
+        ]);
+    } 
+
+    /**
+     * @Route("/user/{userId}/added/o", name="app_list_item_index_user_creation_old", methods={"GET"})
+     */
+    public function indexByCreationDateUserOld(ListItemRepository $listItemRepository, UserRepository $userRepository, $userId): Response
+    {
+        $findByCreationDateAndUser = $listItemRepository->findByCreationDateAndUserOld($userId);
+        return $this->render('list_item/index.html.twig', [
+            'list_items' => $findByCreationDateAndUser,
+            'users' => $userRepository->findAll(),
+            'actualUser' => $userId
+        ]);
+    } 
+
+        /**
+     * @Route("/user/{userId}/alpha", name="app_list_item_index_user_alpha", methods={"GET"})
+     */
+    public function indexByUserAndAlphabeticalOrder(ListItemRepository $listItemRepository, UserRepository $userRepository, $userId): Response
+    {
+        $findByAlphabeticalOrderAndUser = $listItemRepository->findByAlphabeticalOrderAndUser($userId);
+        return $this->render('list_item/index.html.twig', [
+            'list_items' => $findByAlphabeticalOrderAndUser,
+            'users' => $userRepository->findAll(),
+            'actualUser' => $userId
+        ]);
+    } 
+
+        /**
+     * @Route("/alpha", name="app_list_item_index_alpha", methods={"GET"})
+     */
+    public function indexByAlphabeticalOrder(ListItemRepository $listItemRepository, UserRepository $userRepository): Response
+    {
+        $findByAlphabeticalOrder = $listItemRepository->findByAlphabeticalOrder();
+        return $this->render('list_item/index.html.twig', [
+            'list_items' => $findByAlphabeticalOrder,
+            'users' => $userRepository->findAll()
+        ]);
+    } 
 
     /**
      * @Route("/new", name="app_list_item_new", methods={"GET", "POST"})

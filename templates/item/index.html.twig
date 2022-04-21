@@ -10,7 +10,8 @@
             <a class="btn btn-success align-self-center" href="{{ path('app_item_new') }}">Créer un nouvel Item</a>
         </div>
         
-        <div class="dropdown mb-4">
+        <div class="d-flex">
+        <div class="dropdown mx-1">
             <button class="btn btn-secondary dropdown-toggle btn-light" style="background-color:#FFA47A; border-color: #FFA47A"type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Filtrer par Mode
             </button>
@@ -20,6 +21,24 @@
                 {% endfor %}
                 <a class="dropdown-item" href="{{ path('app_item_index') }}">Tout voir</a>
             </div>
+        </div>
+
+        <div class="dropdown mb-4">
+            <button class="btn btn-secondary dropdown-toggle btn-light" style="background-color:#FFA47A; border-color: #FFA47A"type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Autres filtres
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                {% if app.request.attributes.get('_route') starts with 'app_item_index_mode' %}
+                    <a class="dropdown-item" href="{{ path('app_item_index_mode_creation_new', {'modeId': actualMode }) }}">Les plus récents</a>
+                    <a class="dropdown-item" href="{{ path('app_item_index_mode_creation_old', {'modeId': actualMode }) }}">Les plus anciens</a>
+                    <a class="dropdown-item" href="{{ path('app_item_index_mode_alpha', {'modeId': actualMode }) }}">Ordre alphabétique</a>
+                {% else %}
+                    <a class="dropdown-item" href="{{ path('app_item_index_creation') }}">Les plus récents</a>
+                    <a class="dropdown-item" href="{{ path('app_item_index') }}">Les plus anciens</a>
+                    <a class="dropdown-item" href="{{ path('app_item_index_alpha') }}">Ordre alphabétique</a>
+                {% endif %}
+            </div>
+        </div>
         </div>
 
         <table class="table">

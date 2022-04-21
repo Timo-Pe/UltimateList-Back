@@ -123,4 +123,72 @@ class ListItemRepository extends ServiceEntityRepository
         ;
 
     }
+
+    /**
+     * @return ListItem[] Returns an array of ListItem objects ordered by Id
+     */
+    public function findByCreationDate()
+    {
+        return $this->createQueryBuilder('l')
+            ->orderBy('l.id', 'DESC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    /**
+     * @return ListItem[] Returns an array of ListItem objects ordered by Id and user
+     */
+    public function findByCreationDateAnduser($userId)
+    {
+        return $this->createQueryBuilder('l')
+            ->andWhere('l.user = :val')
+            ->setParameter('val', $userId)
+            ->orderBy('l.id', 'DESC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    /**
+     * @return ListItem[] Returns an array of ListItem objects ordered by Id and user
+     */
+    public function findByCreationDateAnduserOld($userId)
+    {
+        return $this->createQueryBuilder('l')
+            ->andWhere('l.user = :val')
+            ->setParameter('val', $userId)
+            ->orderBy('l.id', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    /**
+     * @return ListItem[] Returns an array of ListItem objects ordered by name and mode
+     */
+    public function findByAlphabeticalOrderAndUser($modeId)
+    {
+        return $this->createQueryBuilder('l')
+            ->innerJoin('l.item', 'i')
+            ->andWhere('l.user = :val')
+            ->setParameter('val', $modeId)
+            ->orderBy('i.name', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    /**
+     * @return ListItem[] Returns an array of ListItem objects ordered by name
+     */
+    public function findByAlphabeticalOrder()
+    {
+        return $this->createQueryBuilder('l')
+            ->innerJoin('l.item', 'i')
+            ->orderBy('i.name', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 }
